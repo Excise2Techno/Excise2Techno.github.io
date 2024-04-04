@@ -47,8 +47,8 @@
                     </div>
                     <div v-if="isuser">
                         <h2>{{ user.prename }} {{ user.name }} {{ user.surname }}</h2>
-                        {{ user.position }}<br />
-                        {{ user.division }}<br />
+                        <b>ตำแหน่ง:</b> {{ user.position }}<br />
+                        <b>ส่วน:</b> {{ user.division }}<br />
                         <span v-if="user.status=='Active'" class="badge rounded-pill text-bg-success"
                             style="width: 150px;">{{ user.status
                             }}</span>
