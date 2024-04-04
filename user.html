@@ -90,8 +90,12 @@
                         .then((result) => {
                             console.log(result);
                             this.user = result;
+                            this.loadingModal.hide();
                         })
-                        .catch((error) => console.error(error));
+                        .catch((error) => {
+                            console.error(error);
+                            this.loadingModal.hide();
+                        });
 
                 },
                 getuserid(userid, profile) {
@@ -102,6 +106,7 @@
                 },
                 initfn() {
                     this.loadingModal = new bootstrap.Modal('#loadingModal', {});
+                    this.loadingModal.show();
                 },
             },
             computed: {
