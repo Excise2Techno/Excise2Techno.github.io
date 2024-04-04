@@ -184,7 +184,7 @@
                     let surname = this.form.surname;
                     let position = this.form.position;
                     let division = this.form.division;
-                    let redirecturl = 'https://liff.line.me/' + this.redirect != null ? this.redirect : '2003025875-p3AZ0JwL';
+                    let redirecturl = 'https://liff.line.me/' + (this.redirect != null ? this.redirect : '2003025875-p3AZ0JwL');
 
                     if (prename == null || prename == '') {
                         document.getElementById('prename').focus();
@@ -243,7 +243,7 @@
                         fetch(apiurl + "?fn=adduser", requestOptions)
                             .then((response) => response.json())
                             .then((result) => {
-                                console.log(result);
+                                // console.log(result);
                                 this.user = result.user;
                                 this.loadingModal.hide();
                                 Swal.fire({
