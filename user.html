@@ -161,7 +161,7 @@
                     fetch(apiurl + "?fn=getuser", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            console.log(result);
+                            // console.log(result);
                             this.user = result;
                             this.loadingModal.hide();
                         })
@@ -267,7 +267,6 @@
                 },
 
                 getuserid(userid, profile) {
-                    console.log([userid, profile]);
                     this.userid = userid;
                     this.profile = profile;
                     this.getuser();
