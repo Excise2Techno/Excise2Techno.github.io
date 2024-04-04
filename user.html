@@ -46,7 +46,7 @@
                         <img :src="profile" style="width: 130px; height: 130px; object-fit: cover; border-radius: 50%;">
                     </div>
                     <div v-if="isuser">
-                        <h2>{{ user.name }} {{ user.surname }}</h2>
+                        <h2>{{ user.prename }} {{ user.name }} {{ user.surname }}</h2>
                         {{ user.position }}<br />
                         {{ user.division }}<br />
                         {{ user.status }}
@@ -54,6 +54,11 @@
                     <div v-else class="g-3">
                         <h2>ลงทะเบียนผู้ใช้งาน</h2>
                         <hr />
+                        <div class="mb-3">
+                            <label for="prename" class="form-label">คำนำหน้าชื่อ</label>
+                            <input type="text" class="form-control" id="prename" placeholder="กรอกคำนำหน้าชื่อ"
+                                v-model="form.prename">
+                        </div>
                         <div class="mb-3">
                             <label for="username" class="form-label">ชื่อ</label>
                             <input type="text" class="form-control" id="username" placeholder="กรอกชื่อ"
@@ -115,6 +120,7 @@
                     userid: null,
                     profile: './asset/null.jpeg',
                     user: {
+                        prename: null,
                         name: null,
                         surname: null,
                         position: null,
@@ -122,6 +128,7 @@
                         status: 'In-active'
                     },
                     form: {
+                        prename: null,
                         name: null,
                         surname: null,
                         position: null,
@@ -135,6 +142,7 @@
                     this.redirect = urlParams.get('redirect');  // default null
                     console.log(this.redirect);
                 },
+
                 getuser() {
                     let apiurl = 'https://script.google.com/macros/s/AKfycbwk8CzyXKsXPq1Q7piVMC7aH8xsIqoJYAkN0hCJncFc3mU4p0pQBfN1l9LEoRrs6pD9/exec';
 
@@ -163,15 +171,65 @@
                         });
 
                 },
+
                 adduser() {
+                    // userid	prename	name	surname	position	division	status
+                    let apiurl = 'https://script.google.com/macros/s/AKfycbwk8CzyXKsXPq1Q7piVMC7aH8xsIqoJYAkN0hCJncFc3mU4p0pQBfN1l9LEoRrs6pD9/exec';
+                    let userid = this.userid;
+                    let prename = this.form.prename;
+                    let name = this.form.name;
+                    let surname = this.form.surname;
+                    let position = this.form.position;
+                    let division = this.form.division;
+
+                    if (prename == null || prename == '') {
+                        document.getElementById('prename').focus();
+                        Swal.fire({
+                            title: "ผิดพลาด",
+                            text: "กรุณากรอกคำนำหน้าชื่อ",
+                            icon: "error"
+                        });
+                    } else if (name == null || name == '') {
+                        document.getElementById('username').focus();
+                        Swal.fire({
+                            title: "ผิดพลาด",
+                            text: "กรุณากรอกชื่อ",
+                            icon: "error"
+                        });
+                    } else if (surname == null || surname == '') {
+                        document.getElementById('surname').focus();
+                        Swal.fire({
+                            title: "ผิดพลาด",
+                            text: "กรุณากรอกนามสกุล",
+                            icon: "error"
+                        });
+                    } else if (position == null || position == '') {
+                        document.getElementById('position').focus();
+                        Swal.fire({
+                            title: "ผิดพลาด",
+                            text: "กรุณากรอกตำแหน่ง",
+                            icon: "error"
+                        });
+                    } else if (division == null || division == '') {
+                        document.getElementById('division').focus();
+                        Swal.fire({
+                            title: "ผิดพลาด",
+                            text: "กรุณากรอกส่วนงาน",
+                            icon: "error"
+                        });
+                    } else {
+                        this.loadingModal.show();
+                    }
 
                 },
+
                 getuserid(userid, profile) {
                     console.log([userid, profile]);
                     this.userid = userid;
                     this.profile = profile;
                     this.getuser();
                 },
+
                 initfn() {
                     this.loadingModal = new bootstrap.Modal('#loadingModal', {});
                     this.loadingModal.show();
