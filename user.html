@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excise Region 2 E-office</title>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    redirect: null,
+                    userid: null,
+                    display: './asset/null.jpeg',
+                    isuser: 0,
+                    user: {
+                        name: null,
+                        surname: null,
+                        position: null,
+                        division: null,
+                        status: 'In-active'
+                    },
+
+
+                }
+            },
+            methods: {
+                getredirect() {
+                    let urlParams = new URLSearchParams(window.location.search);
+                    this.redirect = urlParams.get('redirect');  // default null
+                    console.log(this.redirect);
+                },
+                getuser() {
+
+                },
+                getuserid(userid, display) {
+                    console.log([userid, display]);
+                },
+                initfn() {
+
+                },
+            },
+            computed: {
+
+            },
+            mounted() {
+                this.initfn();
+                this.getredirect();
+            },
+        }).mount('#app');
+
+        liff.init({ liffId: "<< LIFF ID >>" }, () => {
+            if (!liff.isLoggedIn()) {
+                let destinationUrl = window.location.href;
+                liff.login({ redirectUri: destinationUrl });
+            } else {
+                liff.getProfile()
+                    .then((profile) => {
+                        // userId = profile.userId;
+                        // displayName = profile.displayName;
+                        // pictureUrl = profile.pictureUrl;
+                        app.getuserid(profile.userId, profile.pictureUrl);
+                    })
+                    .catch((err) => {
+                        liff.closeWindow();
+                        console.log("error", err);
+                    });
+            }
+        });
+    </script>
+</body>
+
+</html>
