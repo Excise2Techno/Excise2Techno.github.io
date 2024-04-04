@@ -49,7 +49,12 @@
                         <h2>{{ user.prename }} {{ user.name }} {{ user.surname }}</h2>
                         {{ user.position }}<br />
                         {{ user.division }}<br />
-                        {{ user.status }}
+                        <span v-if="user.status=='Active'" class="badge rounded-pill text-bg-success"
+                            style="width: 150px;">{{ user.status
+                            }}</span>
+                        <span v-else class="badge rounded-pill text-bg-secondary" style="width: 150px;">{{ user.status
+                            }}</span>
+
                     </div>
                     <div v-else class="g-3">
                         <h2>ลงทะเบียนผู้ใช้งาน</h2>
