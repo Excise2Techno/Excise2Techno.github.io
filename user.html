@@ -6,12 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Excise Region 2 E-office</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js"></script>
+
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 
 <body>
     <div id="app">
+
+        <!-- loadingModal -->
+        <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="loadingModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        <div class="ratio ratio-1x1" style="width: 100%;">
+                            <div class="spinner-border text-primary" style="width: 100%; height: 100%;" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <h1 class="text-center text-primary">Loading...</h1>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
     </div>
 
@@ -20,9 +42,10 @@
         const app = Vue.createApp({
             data() {
                 return {
+                    loadingModal: null,
                     redirect: null,
                     userid: null,
-                    display: './asset/null.jpeg',
+                    profile: './asset/null.jpeg',
                     isuser: 0,
                     user: {
                         name: null,
@@ -42,13 +65,37 @@
                     console.log(this.redirect);
                 },
                 getuser() {
+                    let apiurl = 'https://script.google.com/macros/s/AKfycbwk8CzyXKsXPq1Q7piVMC7aH8xsIqoJYAkN0hCJncFc3mU4p0pQBfN1l9LEoRrs6pD9/exec';
+
+                    let raw = {
+                        "userid": this.userid,
+                    };
+
+                    let requestOptions = {
+                        method: "POST",
+                        redirect: "follow",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(raw),
+
+                    };
+
+                    fetch(apiurl + "?fn=getuser", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            console.log(result);
+                            this.user = result;
+                        })
+                        .catch((error) => console.error(error));
 
                 },
-                getuserid(userid, display) {
-                    console.log([userid, display]);
+                getuserid(userid, profile) {
+                    console.log([userid, profile]);
+                    this.userid = userid;
+                    this.profile = profile;
+                    this.getuser();
                 },
                 initfn() {
-
+                    this.loadingModal = new bootstrap.Modal('#loadingModal', {});
                 },
             },
             computed: {
