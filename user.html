@@ -20,7 +20,68 @@
 </head>
 
 <body>
+    <nav class="navbar sticky-top navbar-dark bg-dark mb-3">
+        <div class="container-fluid">
+            <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> -->
+
+            <span class="navbar-brand">
+                <img src="./asset/null.jpeg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                E-Office
+            </span>
+
+        </div>
+    </nav>
+
+
+
     <div id="app">
+        <div class="container d-flex justify-content-center mb-3">
+            <div class="card" style="width: 100%; max-width: 400px;">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <img :src="profile" style="width: 130px; height: 130px; object-fit: cover;">
+                    </div>
+                    <div v-if="isuser">
+                        <h2>{{ user.name }} {{ user.surname }}</h2>
+                        {{ user.position }}<br />
+                        {{ user.division }}<br />
+                        {{ user.status }}
+                    </div>
+                    <div v-else class="g-3">
+                        <h2>ลงทะเบียนผู้ใช้งาน</h2>
+                        <hr />
+                        <div class="mb-3">
+                            <label for="username" class="form-label">ชื่อ</label>
+                            <input type="text" class="form-control" id="username" placeholder="กรอกชื่อ"
+                                v-model="form.name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="surname" class="form-label">นามสกุล</label>
+                            <input type="text" class="form-control" id="surname" placeholder="กรอกนามสกุล"
+                                v-model="form.surname">
+                        </div>
+                        <div class="mb-3">
+                            <label for="position" class="form-label">ตำแหน่ง</label>
+                            <input type="text" class="form-control" id="position" placeholder="กรอกตำแหน่ง"
+                                v-model="form.position">
+                        </div>
+                        <div class="mb-3">
+                            <label for="division" class="form-label">ส่วน</label>
+                            <input type="text" class="form-control" id="division" placeholder="กรอกส่วน"
+                                v-model="form.division">
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-success form-control" @click="adduser">บันทึก</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
 
         <!-- loadingModal -->
         <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -52,7 +113,6 @@
                     redirect: null,
                     userid: null,
                     profile: './asset/null.jpeg',
-                    isuser: 0,
                     user: {
                         name: null,
                         surname: null,
@@ -60,8 +120,12 @@
                         division: null,
                         status: 'In-active'
                     },
-
-
+                    form: {
+                        name: null,
+                        surname: null,
+                        position: null,
+                        division: null
+                    }
                 }
             },
             methods: {
@@ -98,6 +162,9 @@
                         });
 
                 },
+                adduser() {
+
+                },
                 getuserid(userid, profile) {
                     console.log([userid, profile]);
                     this.userid = userid;
@@ -110,7 +177,9 @@
                 },
             },
             computed: {
-
+                isuser() {
+                    return this.user.name != null ? true : false;
+                }
             },
             mounted() {
                 this.initfn();
