@@ -44,13 +44,7 @@
 
         <!-- Calendar -->
         <div v-if="page==1" class="container mb-3">
-            <full-calendar shadow options='{
-                "headerToolbar": {
-                    "left": "prev,next today",
-                    "center": "title",
-                    "right": "dayGridMonth,dayGridWeek,dayGridDay"
-                }
-            }' />
+            <div id="calendar"></div>
         </div>
 
         <!-- Form -->
@@ -91,6 +85,7 @@
                     loadingModal: null,
                     userid: null,
                     profile: './asset/null.jpeg',
+                    calendar: null,
                     user: {
                         prename: null,
                         name: null,
@@ -103,6 +98,16 @@
                 }
             },
             methods: {
+                setcalender() {
+                    this.calendar.options = {
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                        }
+                    }
+                },
+
                 getuser() {
                     let apiurl = 'https://script.google.com/macros/s/AKfycbwk8CzyXKsXPq1Q7piVMC7aH8xsIqoJYAkN0hCJncFc3mU4p0pQBfN1l9LEoRrs6pD9/exec';
 
@@ -152,6 +157,8 @@
                 initfn() {
                     this.loadingModal = new bootstrap.Modal('#loadingModal', {});
                     this.loadingModal.show();
+                    this.calendar = document.getElementById('calendar');
+                    this.setcalender();
                 },
             },
             computed: {
