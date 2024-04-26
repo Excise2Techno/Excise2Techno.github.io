@@ -60,9 +60,16 @@
 
         <!-- navBottom -->
         <nav class="nav fixed-bottom bg-body-tertiary d-flex justify-content-evenly">
-            <a class="nav-link active" aria-current="page" href="#">Active</a>
-            <a class="nav-link" href="#">Link</a>
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            <a v-if="page==1" class="nav-link active" aria-current="page">ปฏิทิน</a>
+            <a v-else class="nav-link" @click="setpage(1)">ปฏิทิน</a>
+
+            <a v-if="user.status!='Active'" class="nav-link disabled" aria-disabled="true">การจอง</a>
+            <a v-else-if="page==2" class="nav-link active" aria-current="page">การจอง</a>
+            <a v-else class="nav-link" @click="setpage(2)">การจอง</a>
+
+            <a v-if="user.status!='Active'" class="nav-link disabled" aria-disabled="true">จองรถ</a>
+            <a v-else-if="page==3" class="nav-link active" aria-current="page">จองรถ</a>
+            <a v-else class="nav-link" @click="setpage(3)">จองรถ</a>
         </nav>
 
         <!-- loadingModal -->
@@ -102,10 +109,14 @@
                         division: null,
                         status: 'In-active'
                     },
-                    page: 1
+                    page: 1,
+                    userapi: 'https://script.google.com/macros/s/AKfycbwk8CzyXKsXPq1Q7piVMC7aH8xsIqoJYAkN0hCJncFc3mU4p0pQBfN1l9LEoRrs6pD9/exec'
                 }
             },
             methods: {
+                setpage(no) {
+                    this.page = parseInt(no);
+                },
                 setcalender() {
                     this.calendar = document.querySelector('full-calendar');
                     this.calendar.options = {
@@ -137,8 +148,6 @@
                 },
 
                 getuser() {
-                    let apiurl = 'https://script.google.com/macros/s/AKfycbwk8CzyXKsXPq1Q7piVMC7aH8xsIqoJYAkN0hCJncFc3mU4p0pQBfN1l9LEoRrs6pD9/exec';
-
                     let raw = {
                         "userid": this.userid,
                     };
@@ -151,7 +160,7 @@
 
                     };
 
-                    fetch(apiurl + "?fn=getuser", requestOptions)
+                    fetch(this.userapi + "?fn=getuser", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
                             // console.log(result);
