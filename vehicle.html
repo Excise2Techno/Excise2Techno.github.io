@@ -44,7 +44,7 @@
     <div id="app">
 
         <!-- Calendar -->
-        <div v-if="page==1" class="container mb-3">
+        <div v-if="page==1" class="container mb-5">
             <full-calendar shadow />
         </div>
 
@@ -57,6 +57,17 @@
         <div v-else-if="page==3" class="container mb-3">
 
         </div>
+
+        <nav class="navbar fixed-bottom bg-body-tertiary">
+            <div class="container-fluid">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                </div>
+            </div>
+        </nav>
 
         <!-- loadingModal -->
         <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -104,7 +115,7 @@
                     this.calendar.options = {
                         locale: 'th',
                         firstDay: [0],
-                        height: 650,
+                        height: 600,
                         headerToolbar: {
                             // left: 'prev,next today',
                             // center: 'title',
