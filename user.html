@@ -83,6 +83,10 @@
                             <label for="division" class="form-label">ส่วน</label>
                             <input type="text" class="form-control" id="division" placeholder="กรอกส่วน"
                                 v-model="form.division">
+                            <select class="form-select" id="divis">
+                                <option value='' disabled> --เลือกส่วน-- </option>
+                                <option v-for="item in divis" :value="item">{{ item }}</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <button class="btn btn-success form-control" @click="adduser">บันทึก</button>
@@ -124,6 +128,7 @@
                     redirect: null,
                     userid: null,
                     profile: './asset/null.jpeg',
+                    divis: [],
                     user: {
                         prename: null,
                         name: null,
@@ -138,7 +143,8 @@
                         surname: null,
                         position: null,
                         division: null
-                    }
+                    },
+                    userapi: 'https://script.google.com/macros/s/AKfycbwk8CzyXKsXPq1Q7piVMC7aH8xsIqoJYAkN0hCJncFc3mU4p0pQBfN1l9LEoRrs6pD9/exec'
                 }
             },
             methods: {
@@ -148,9 +154,28 @@
                     // console.log(this.redirect);
                 },
 
-                getuser() {
-                    let apiurl = 'https://script.google.com/macros/s/AKfycbwk8CzyXKsXPq1Q7piVMC7aH8xsIqoJYAkN0hCJncFc3mU4p0pQBfN1l9LEoRrs6pD9/exec';
+                getdivis() {
+                    let raw = {};
 
+                    let requestOptions = {
+                        method: "POST",
+                        redirect: "follow",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(raw),
+                    };
+
+                    fetch(this.userapi + "?fn=getdivis", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            // console.log(result);
+                            this.divis = result;
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                },
+
+                getuser() {
                     let raw = {
                         "userid": this.userid,
                     };
@@ -163,7 +188,7 @@
 
                     };
 
-                    fetch(apiurl + "?fn=getuser", requestOptions)
+                    fetch(this.userapi + "?fn=getuser", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
                             // console.log(result);
@@ -178,7 +203,6 @@
 
                 adduser() {
                     // userid	prename	name	surname	position	division	status
-                    let apiurl = 'https://script.google.com/macros/s/AKfycbwk8CzyXKsXPq1Q7piVMC7aH8xsIqoJYAkN0hCJncFc3mU4p0pQBfN1l9LEoRrs6pD9/exec';
                     let prename = this.form.prename;
                     let name = this.form.name;
                     let surname = this.form.surname;
@@ -240,7 +264,7 @@
 
                         };
 
-                        fetch(apiurl + "?fn=adduser", requestOptions)
+                        fetch(this.userapi + "?fn=adduser", requestOptions)
                             .then((response) => response.json())
                             .then((result) => {
                                 // console.log(result);
@@ -289,6 +313,7 @@
             },
             mounted() {
                 this.initfn();
+                this.getdivis();
                 this.getredirect();
             },
         }).mount('#app');
