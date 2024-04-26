@@ -109,23 +109,6 @@
                             center: 'title',
                             right: 'dayGridMonth,dayGridWeek,dayGridDay'
                         },
-                        events: [],
-                        eventClick: function (info) {
-                            alert('Event ID: ' + info.event.id);
-                            // change the border color just for fun
-                            info.el.style.borderColor = 'blue';
-                        }
-                    };
-
-                    this.calendar.options = {
-                        locale: 'th',
-                        firstDay: [0],
-                        height: 650,
-                        headerToolbar: {
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'dayGridMonth,dayGridWeek,dayGridDay'
-                        },
                         events: [
                             {
                                 id: 'Car-0001',
