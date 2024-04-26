@@ -44,7 +44,7 @@
 
         <!-- Calendar -->
         <div v-if="page==1" class="container mb-3">
-            <div id="calendar"></div>
+            <full-calendar shadow />
         </div>
 
         <!-- Form -->
@@ -157,7 +157,7 @@
                 initfn() {
                     this.loadingModal = new bootstrap.Modal('#loadingModal', {});
                     this.loadingModal.show();
-                    this.calendar = document.getElementById('calendar');
+                    this.calendar = document.querySelector('full-calendar');
                     this.setcalender();
                 },
             },
