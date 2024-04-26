@@ -83,7 +83,7 @@
                             <label for="division" class="form-label">ส่วน</label>
                             <input type="text" class="form-control" id="division" placeholder="กรอกส่วน"
                                 v-model="form.division">
-                            <select class="form-select" id="divis">
+                            <select class="form-select" id="divis" v-model="form.division">
                                 <option value='' disabled> --เลือกส่วน-- </option>
                                 <option v-for="item in divis" :value="item">{{ item }}</option>
                             </select>
