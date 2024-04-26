@@ -101,6 +101,7 @@
                     userid: null,
                     profile: './asset/null.jpeg',
                     calendar: null,
+                    vehicles: [],
                     user: {
                         prename: null,
                         name: null,
@@ -110,7 +111,8 @@
                         status: 'In-active'
                     },
                     page: 1,
-                    userapi: 'https://script.google.com/macros/s/AKfycbwk8CzyXKsXPq1Q7piVMC7aH8xsIqoJYAkN0hCJncFc3mU4p0pQBfN1l9LEoRrs6pD9/exec'
+                    userapi: 'https://script.google.com/macros/s/AKfycbwk8CzyXKsXPq1Q7piVMC7aH8xsIqoJYAkN0hCJncFc3mU4p0pQBfN1l9LEoRrs6pD9/exec',
+                    vehsapi: 'https://script.google.com/macros/s/AKfycby3jEFJthSJQaHNbUOHNedIsa7nbFgWuzKFyb86ftJjQ8tvxO9-mB1EB_3s4x-AO0JHoQ/exec'
                 }
             },
             methods: {
@@ -182,6 +184,27 @@
                         });
                 },
 
+                getvehs() {
+                    let raw = {};
+
+                    let requestOptions = {
+                        method: "POST",
+                        redirect: "follow",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(raw),
+                    };
+
+                    fetch(this.vehsapi + "?fn=getvehs", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            console.log(result);
+                            this.vehicles = result;
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                },
+
                 setpage(no) {
                     this.page = parseInt(no);
                     if (this.page == 1) setTimeout(() => { this.setcalender(); }, 500);
@@ -197,6 +220,7 @@
                 initfn() {
                     this.loadingModal = new bootstrap.Modal('#loadingModal', {});
                     this.loadingModal.show();
+                    this.getvehs();
                     this.calendar = document.querySelector('full-calendar');
                     this.setcalender();
                 },
