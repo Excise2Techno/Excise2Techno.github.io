@@ -184,7 +184,8 @@
 
                 setpage(no) {
                     this.page = parseInt(no);
-                    if (this.page == 1) this.setcalender();
+                    if (this.page == 1) setTimeout(() => { this.setcalender(); }, 500);
+
                 },
 
                 getuserid(userid, profile) {
