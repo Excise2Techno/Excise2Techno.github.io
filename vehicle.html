@@ -105,9 +105,11 @@
                         firstDay: [0],
                         height: 650,
                         headerToolbar: {
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                            // left: 'prev,next today',
+                            // center: 'title',
+                            // right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                            left: 'title',
+                            right: 'today prev,next'
                         },
                         eventClick: function (info) {
                             alert('Event ID: ' + info.event.id);
