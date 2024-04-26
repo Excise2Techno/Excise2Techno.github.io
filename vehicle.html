@@ -114,14 +114,6 @@
                             // change the border color just for fun
                             info.el.style.borderColor = 'blue';
                         },
-                        eventDidMount: function (info) {
-                            let tooltip = new Tooltip(info.el, {
-                                title: info.event.extendedProps.id,
-                                placement: 'top',
-                                trigger: 'hover',
-                                container: 'body'
-                            });
-                        },
                         events: [
                             {
                                 id: 'Car-0001',
