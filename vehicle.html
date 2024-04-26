@@ -114,9 +114,6 @@
                 }
             },
             methods: {
-                setpage(no) {
-                    this.page = parseInt(no);
-                },
                 setcalender() {
                     this.calendar = document.querySelector('full-calendar');
                     this.calendar.options = {
@@ -183,6 +180,11 @@
                                 });
                             this.loadingModal.hide();
                         });
+                },
+
+                setpage(no) {
+                    this.page = parseInt(no);
+                    if (this.page == 1) this.setcalender();
                 },
 
                 getuserid(userid, profile) {
