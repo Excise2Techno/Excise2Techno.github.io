@@ -76,7 +76,7 @@
                     <input type="date" id="stdate" :min="form.msdate" class="form-control"
                         placeholder="กรอกวันที่เดินทาง" v-model="form.stdate" readonly />
                     <span class="input-group-text">เวลา</span>
-                    <select id="sttime" placeholder="เลือกเวลาเดินทาง" v-model="form.sttime" readonly>
+                    <select id="sttime" placeholder="เลือกเวลาเดินทาง" v-model="form.sttime" disabled>
                         <option v-for="item in times" :value="item.val">{{ item.title }}</option>
                     </select>
                 </div>
@@ -86,7 +86,7 @@
                     <input type="date" id="endate" :min="form.sttime" class="form-control" placeholder="กรอกวันที่กลับ"
                         v-model="form.endate" readonly />
                     <span class="input-group-text">เวลา</span>
-                    <select id="entime" placeholder="เลือกเวลากลับ" v-model="form.entime" readonly>
+                    <select id="entime" placeholder="เลือกเวลากลับ" v-model="form.entime" disabled>
                         <option v-for="item in times" :value="item.val">{{ item.title }}</option>
                     </select>
                 </div>
@@ -96,14 +96,12 @@
 
                 <h4 class="mb-2" style="text-decoration-line: underline; text-decoration-style: double;">ข้อมูลรถ</h4>
 
-                <div class="mb-3 bg-secondary slice" style="height: 250px; border-style: groove; border-radius: 5px;">
+                <div class="mb-3 bg-secondary slice" style="height: 250px; border-radius: 5px;">
                     <div v-for="(item, index) in vehicles" class="card bg-light my-1">
                         <div class="card-body">
                             <h5>{{ item.id }}</h5>
                             <div class="d-flex justify-content-between">
-                                <div>
-                                    {{ item.vtyperow }}
-                                </div>
+                                <div>{{ item.vtyperow }}</div>
                                 <div>
                                     <span v-if="item.status" class="badge rounded-pill text-bg-success"
                                         style="width: 80px;">ว่าง</span>
