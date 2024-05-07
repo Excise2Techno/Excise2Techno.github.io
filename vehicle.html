@@ -58,12 +58,44 @@
                 <div class="input-group mb-3">
                     <span class="input-group-text">วันที่</span>
                     <input type="date" id="stdate" :min="form.msdate" class="form-control"
-                        placeholder="กรอกวันที่เดินทาง" v-model="form.stdate" />
+                        placeholder="กรอกวันที่เดินทาง" v-model="form.stdate" readonly />
                     <span class="input-group-text">เวลา</span>
-                    <select id="sttime" placeholder="เลือกเวลาเดินทาง" v-model="form.sttime">
+                    <select id="sttime" class="form-select" placeholder="เลือกเวลาเดินทาง" v-model="form.sttime"
+                        readonly>
                         <option v-for="item in times" :value="item.val">{{ item.title }}</option>
                     </select>
                 </div>
+
+                <div class="input-group">
+                    <span class="input-group-text">ถึง</span>
+                    <input type="date" id="endate" :min="form.sttime" class="form-control" placeholder="กรอกวันที่กลับ"
+                        v-model="form.endate" readonly />
+                    <span class="input-group-text">เวลา</span>
+                    <select id="entime" class="form-select" placeholder="เลือกเวลากลับ" v-model="form.entime" readonly>
+                        <option v-for="item in times" :value="item.val">{{ item.title }}</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-warning form-control mb-3" data-bs-toggle="modal"
+                    data-bs-target="#selectDateModal">เลือกวัน</button>
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">รายละเอียดการเดินทางไป</label>
+                    <textarea class="form-control" id="title" rows="3" v-model="form.title"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="detail" class="form-label">รายละเอียดเพิ่มเติม</label>
+                    <textarea class="form-control" id="detail" rows="5" v-model="form.detail"></textarea>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text">จำนวยผู้ร่วมเดินทาง</span>
+                    <input type="number" id="passenger" :min="form.passenger" class="form-control"
+                        placeholder="กรอกจำนวน" v-model="form.passenger" />
+                </div>
+
+                <button type="button" class="btn btn-success form-control mb-3" @click="saveform">บันทึก</button>
             </div>
 
             <div>
@@ -106,6 +138,45 @@
             <a v-else-if="page==3" class="nav-link active" aria-current="page">การจอง</a>
             <a v-else class="nav-link" @click="setpage(3)">การจอง</a>
         </nav>
+
+        <!-- selectDateModal -->
+        <div class="modal fade" id="selectDateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="selectDateModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="selectDateModalLabel">เลือกวัน</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">วันที่</span>
+                            <input type="date" :min="form.msdate" class="form-control" placeholder="กรอกวันที่เดินทาง"
+                                v-model="form.stdate" />
+                            <span class="input-group-text">เวลา</span>
+                            <select class="form-select" placeholder="เลือกเวลาเดินทาง" v-model="form.sttime">
+                                <option v-for="item in times" :value="item.val">{{ item.title }}</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-text">ถึง</span>
+                            <input type="date" :min="form.sttime" class="form-control" placeholder="กรอกวันที่กลับ"
+                                v-model="form.endate" />
+                            <span class="input-group-text">เวลา</span>
+                            <select class="form-select" placeholder="เลือกเวลากลับ" v-model="form.entime">
+                                <option v-for="item in times" :value="item.val">{{ item.title }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                            @click="selectdate">ตกลง</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- loadingModal -->
         <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -187,6 +258,14 @@
                 }
             },
             methods: {
+                selectdate() {
+
+                },
+
+                saveform() {
+
+                },
+
                 setform() {
                     let nwdate = new Date(Date.now());
                     let dd = ('0' + nwdate.getDate()).slice(-2);
@@ -296,7 +375,6 @@
                 setpage(no) {
                     this.page = parseInt(no);
                     if (this.page == 1) setTimeout(() => { this.setcalender(); }, 500);
-
                 },
 
                 getuserid(userid, profile) {
@@ -311,6 +389,7 @@
                     this.getvehs();
                     this.calendar = document.querySelector('full-calendar');
                     this.setcalender();
+                    this.setform();
                 },
             },
             computed: {
