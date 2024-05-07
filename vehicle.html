@@ -60,24 +60,43 @@
                     <input type="date" id="stdate" :min="form.msdate" class="form-control"
                         placeholder="กรอกวันที่เดินทาง" v-model="form.stdate" readonly />
                     <span class="input-group-text">เวลา</span>
-                    <select id="sttime" class="form-select" placeholder="เลือกเวลาเดินทาง" v-model="form.sttime"
-                        readonly>
+                    <select id="sttime" placeholder="เลือกเวลาเดินทาง" v-model="form.sttime" readonly>
                         <option v-for="item in times" :value="item.val">{{ item.title }}</option>
                     </select>
                 </div>
 
-                <div class="input-group">
+                <div class="input-group mb-1">
                     <span class="input-group-text">ถึง</span>
                     <input type="date" id="endate" :min="form.sttime" class="form-control" placeholder="กรอกวันที่กลับ"
                         v-model="form.endate" readonly />
                     <span class="input-group-text">เวลา</span>
-                    <select id="entime" class="form-select" placeholder="เลือกเวลากลับ" v-model="form.entime" readonly>
+                    <select id="entime" placeholder="เลือกเวลากลับ" v-model="form.entime" readonly>
                         <option v-for="item in times" :value="item.val">{{ item.title }}</option>
                     </select>
                 </div>
 
                 <button type="button" class="btn btn-warning form-control mb-3" data-bs-toggle="modal"
                     data-bs-target="#selectDateModal">เลือกวัน</button>
+
+                <div class="mb-3">
+                    <h4 style="text-decoration-line: underline; text-decoration-style: double;">ข้อมูลรถ</h4>
+                    <div v-for="(item, index) in vehicles" class="card mt-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5>{{ item.id }}</h5>
+                                    {{ item.vtyperow }}
+                                </div>
+                                <div>
+                                    <span v-if="item.status" class="badge rounded-pill text-bg-success"
+                                        style="width: 80px;">ว่าง</span>
+                                    <span v-else class="badge rounded-pill text-bg-secondary"
+                                        style="width: 80px;">ไม่ว่าง</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="mb-3">
                     <label for="title" class="form-label">รายละเอียดการเดินทางไป</label>
@@ -98,25 +117,7 @@
                 <button type="button" class="btn btn-success form-control mb-3" @click="saveform">บันทึก</button>
             </div>
 
-            <div>
-                <h4 style="text-decoration-line: underline; text-decoration-style: double;">ข้อมูลรถ</h4>
-                <div v-for="(item, index) in vehicles" class="card mt-3">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h5>{{ item.id }}</h5>
-                                {{ item.vtyperow }}
-                            </div>
-                            <div>
-                                <span v-if="item.status" class="badge rounded-pill text-bg-success"
-                                    style="width: 80px;">ว่าง</span>
-                                <span v-else class="badge rounded-pill text-bg-secondary"
-                                    style="width: 80px;">ไม่ว่าง</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
         </div>
 
@@ -154,17 +155,17 @@
                             <input type="date" :min="form.msdate" class="form-control" placeholder="กรอกวันที่เดินทาง"
                                 v-model="form.stdate" />
                             <span class="input-group-text">เวลา</span>
-                            <select class="form-select" placeholder="เลือกเวลาเดินทาง" v-model="form.sttime">
+                            <select placeholder="เลือกเวลาเดินทาง" v-model="form.sttime">
                                 <option v-for="item in times" :value="item.val">{{ item.title }}</option>
                             </select>
                         </div>
 
-                        <div class="input-group">
+                        <div class="input-group mb-3">
                             <span class="input-group-text">ถึง</span>
                             <input type="date" :min="form.sttime" class="form-control" placeholder="กรอกวันที่กลับ"
                                 v-model="form.endate" />
                             <span class="input-group-text">เวลา</span>
-                            <select class="form-select" placeholder="เลือกเวลากลับ" v-model="form.entime">
+                            <select placeholder="เลือกเวลากลับ" v-model="form.entime">
                                 <option v-for="item in times" :value="item.val">{{ item.title }}</option>
                             </select>
                         </div>
