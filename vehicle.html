@@ -77,7 +77,7 @@
                         placeholder="กรอกวันที่เดินทาง" v-model="form.stdate" readonly />
                     <span class="input-group-text">เวลา</span>
                     <select id="sttime" placeholder="เลือกเวลาเดินทาง" v-model="form.sttime"
-                        style="border-radius: 0px 8px 8px 0px;" disabled>
+                        style="border-radius: 0px 5px 5px 0px;" disabled>
                         <option v-for="item in times" :value="item.val">{{ item.title }}</option>
                     </select>
                 </div>
@@ -88,7 +88,7 @@
                         v-model="form.endate" readonly />
                     <span class="input-group-text">เวลา</span>
                     <select id="entime" placeholder="เลือกเวลากลับ" v-model="form.entime"
-                        style="border-radius: 0px 8px 8px 0px;" disabled>
+                        style="border-radius: 0px 5px 5px 0px;" disabled>
                         <option v-for="item in times" :value="item.val">{{ item.title }}</option>
                     </select>
                 </div>
@@ -172,7 +172,8 @@
                             <input type="date" :min="form.msdate" class="form-control" placeholder="กรอกวันที่เดินทาง"
                                 v-model="form.stdate" />
                             <span class="input-group-text">เวลา</span>
-                            <select placeholder="เลือกเวลาเดินทาง" v-model="form.sttime">
+                            <select placeholder="เลือกเวลาเดินทาง" v-model="form.sttime"
+                                style="border-radius: 0px 5px 5px 0px;">
                                 <option v-for="item in times" :value="item.val">{{ item.title }}</option>
                             </select>
                         </div>
@@ -182,7 +183,8 @@
                             <input type="date" :min="form.sttime" class="form-control" placeholder="กรอกวันที่กลับ"
                                 v-model="form.endate" />
                             <span class="input-group-text">เวลา</span>
-                            <select placeholder="เลือกเวลากลับ" v-model="form.entime">
+                            <select placeholder="เลือกเวลากลับ" v-model="form.entime"
+                                style="border-radius: 0px 5px 5px 0px;">
                                 <option v-for="item in times" :value="item.val">{{ item.title }}</option>
                             </select>
                         </div>
