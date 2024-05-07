@@ -52,20 +52,25 @@
         <div v-else-if="page==2" class="container mb-3">
 
             <div>
+                <h4 style="text-decoration-line: underline; text-decoration-style: double;">ข้อมูลรถ</h4>
                 <div v-for="(item, index) in vehicles" class="card mt-3">
-                    <div class="card-body d-flex justify-content-between">
-                        <div>
-                            <h4>{{ item.id }}</h4>
-                            {{ item.vtyperow }}
-                        </div>
-                        <div>
-                            {{ item.status }}
-                            <span class="badge rounded-pill text-bg-success" style="width: 80px;">ว่าง</span>
-                            <span class="badge rounded-pill text-bg-secondary" style="width: 80px;">ไม่ว่าง</span>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5>{{ item.id }}</h5>
+                                {{ item.vtyperow }}
+                            </div>
+                            <div>
+                                <span v-if="item.status" class="badge rounded-pill text-bg-success"
+                                    style="width: 80px;">ว่าง</span>
+                                <span v-else class="badge rounded-pill text-bg-secondary"
+                                    style="width: 80px;">ไม่ว่าง</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
         <!-- Tracking -->
