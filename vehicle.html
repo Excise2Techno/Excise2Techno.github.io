@@ -51,6 +51,21 @@
         <!-- Form -->
         <div v-else-if="page==2" class="container mb-3">
 
+            <div>
+                <div v-for="(item, index) in vehicles" class="card mt-3">
+                    <div class="card-body d-flex justify-content-between">
+                        <div>
+                            <h3>{{ item.id }}</h3>
+                            {{ item.vtyperow }}
+                        </div>
+                        <div>
+                            {{ item.status }}
+                            <span class="badge rounded-pill text-bg-success" style="width: 150px;">ว่าง</span>
+                            <span class="badge rounded-pill text-bg-secondary" style="width: 150px;">ไม่ว่าง</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Tracking -->
@@ -63,13 +78,13 @@
             <a v-if="page==1" class="nav-link active" aria-current="page">ปฏิทิน</a>
             <a v-else class="nav-link" @click="setpage(1)">ปฏิทิน</a>
 
-            <a v-if="user.status!='Active'" class="nav-link disabled" aria-disabled="true">การจอง</a>
-            <a v-else-if="page==2" class="nav-link active" aria-current="page">การจอง</a>
-            <a v-else class="nav-link" @click="setpage(2)">การจอง</a>
-
             <a v-if="user.status!='Active'" class="nav-link disabled" aria-disabled="true">จองรถ</a>
-            <a v-else-if="page==3" class="nav-link active" aria-current="page">จองรถ</a>
-            <a v-else class="nav-link" @click="setpage(3)">จองรถ</a>
+            <a v-else-if="page==2" class="nav-link active" aria-current="page">จองรถ</a>
+            <a v-else class="nav-link" @click="setpage(2)">จองรถ</a>
+
+            <a v-if="user.status!='Active'" class="nav-link disabled" aria-disabled="true">การจอง</a>
+            <a v-else-if="page==3" class="nav-link active" aria-current="page">การจอง</a>
+            <a v-else class="nav-link" @click="setpage(3)">การจอง</a>
         </nav>
 
         <!-- loadingModal -->
@@ -137,7 +152,7 @@
                         events: [
                             {
                                 id: 'Car-0001',
-                                title: 'C-001',
+                                title: '4ขษ7641 กรุงเทพมหานคร',
                                 start: '2024-04-22T08:30:00',
                                 end: '2024-05-03T16:30:00'
                             }
