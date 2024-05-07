@@ -76,7 +76,8 @@
                     <input type="date" id="stdate" :min="form.msdate" class="form-control"
                         placeholder="กรอกวันที่เดินทาง" v-model="form.stdate" readonly />
                     <span class="input-group-text">เวลา</span>
-                    <select id="sttime" placeholder="เลือกเวลาเดินทาง" v-model="form.sttime" disabled>
+                    <select id="sttime" placeholder="เลือกเวลาเดินทาง" v-model="form.sttime"
+                        style="border-radius: 0px 8px 8px 0px;" disabled>
                         <option v-for="item in times" :value="item.val">{{ item.title }}</option>
                     </select>
                 </div>
@@ -86,7 +87,8 @@
                     <input type="date" id="endate" :min="form.sttime" class="form-control" placeholder="กรอกวันที่กลับ"
                         v-model="form.endate" readonly />
                     <span class="input-group-text">เวลา</span>
-                    <select id="entime" placeholder="เลือกเวลากลับ" v-model="form.entime" disabled>
+                    <select id="entime" placeholder="เลือกเวลากลับ" v-model="form.entime"
+                        style="border-radius: 0px 8px 8px 0px;" disabled>
                         <option v-for="item in times" :value="item.val">{{ item.title }}</option>
                     </select>
                 </div>
