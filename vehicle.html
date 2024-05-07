@@ -49,7 +49,22 @@
         </div>
 
         <!-- Form -->
-        <div v-else-if="page==2" class="container mb-3">
+        <div v-else-if="page==2" class="container mb-5">
+            <!-- id	user	stdate	sttime	endate	entime	title	detail	passenger	status -->
+            <!-- id	calendar	vehicles -->
+            <h3>จองรถ</h3>
+            <hr />
+            <div class="mb-3 g-3">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">วันที่</span>
+                    <input type="date" id="stdate" :min="form.msdate" class="form-control"
+                        placeholder="กรอกวันที่เดินทาง" v-model="form.stdate" />
+                    <span class="input-group-text">เวลา</span>
+                    <select id="sttime" placeholder="เลือกเวลาเดินทาง" v-model="form.sttime">
+                        <option v-for="item in times" :value="item.val">{{ item.title }}</option>
+                    </select>
+                </div>
+            </div>
 
             <div>
                 <h4 style="text-decoration-line: underline; text-decoration-style: double;">ข้อมูลรถ</h4>
@@ -74,7 +89,7 @@
         </div>
 
         <!-- Tracking -->
-        <div v-else-if="page==3" class="container mb-3">
+        <div v-else-if="page==3" class="container mb-5">
 
         </div>
 
@@ -121,6 +136,16 @@
                     userid: null,
                     profile: './asset/null.jpeg',
                     calendar: null,
+                    form: {
+                        msdate: null,
+                        stdate: null,
+                        sttime: '08:00:00',
+                        endate: null,
+                        entime: '16:00:00',
+                        title: null,
+                        detail: null,
+                        passenger: 1
+                    },
                     vehicles: [],
                     user: {
                         prename: null,
@@ -130,12 +155,55 @@
                         division: null,
                         status: 'In-active'
                     },
+                    times: [
+                        { title: '00.00', val: '00:00:00' },
+                        { title: '01.00', val: '01:00:00' },
+                        { title: '02.00', val: '02:00:00' },
+                        { title: '03.00', val: '03:00:00' },
+                        { title: '04.00', val: '04:00:00' },
+                        { title: '05.00', val: '05:00:00' },
+                        { title: '06.00', val: '06:00:00' },
+                        { title: '07.00', val: '07:00:00' },
+                        { title: '08.00', val: '08:00:00' },
+                        { title: '09.00', val: '09:00:00' },
+                        { title: '10.00', val: '10:00:00' },
+                        { title: '11.00', val: '11:00:00' },
+                        { title: '12.00', val: '12:00:00' },
+                        { title: '13.00', val: '13:00:00' },
+                        { title: '14.00', val: '14:00:00' },
+                        { title: '15.00', val: '15:00:00' },
+                        { title: '16.00', val: '16:00:00' },
+                        { title: '17.00', val: '17:00:00' },
+                        { title: '18.00', val: '18:00:00' },
+                        { title: '19.00', val: '19:00:00' },
+                        { title: '20.00', val: '20:00:00' },
+                        { title: '21.00', val: '21:00:00' },
+                        { title: '22.00', val: '22:00:00' },
+                        { title: '23.00', val: '23:00:00' }
+                    ],
                     page: 1,
                     userapi: 'https://script.google.com/macros/s/AKfycbwk8CzyXKsXPq1Q7piVMC7aH8xsIqoJYAkN0hCJncFc3mU4p0pQBfN1l9LEoRrs6pD9/exec',
                     vehsapi: 'https://script.google.com/macros/s/AKfycby3jEFJthSJQaHNbUOHNedIsa7nbFgWuzKFyb86ftJjQ8tvxO9-mB1EB_3s4x-AO0JHoQ/exec'
                 }
             },
             methods: {
+                setform() {
+                    let nwdate = new Date(Date.now());
+                    let dd = ('0' + nwdate.getDate()).slice(-2);
+                    let mm = ('0' + (nwdate.getMonth() + 1)).slice(-2);
+                    let yy = nwdate.getFullYear();
+                    this.form = {
+                        msdate: yy + '-' + mm + '-' + dd,
+                        stdate: yy + '-' + mm + '-' + dd,
+                        sttime: '08:00:00',
+                        endate: yy + '-' + mm + '-' + dd,
+                        entime: '16:00:00',
+                        title: null,
+                        detail: null,
+                        passenger: 1
+                    }
+                },
+
                 setcalender() {
                     this.calendar = document.querySelector('full-calendar');
                     this.calendar.options = {
