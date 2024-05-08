@@ -99,7 +99,7 @@
                 <div class="mb-3">
                     <label class="form-label mb-2">ข้อมูลรถ</label>
                     <div class="bg-secondary slice" style="height: 250px; border-radius: 5px;">
-                        <div v-for="(item, index) in vehicles" class="card bg-light my-1">
+                        <div v-for="(item, index) in chkvehs" class="card bg-light my-1">
                             <div class="card-body">
                                 <h5>{{ item.id }}</h5>
                                 <div class="d-flex justify-content-between">
@@ -462,6 +462,16 @@
                 },
             },
             computed: {
+                chkvehs() {
+                    let usage = this.usage;
+                    let vehs = this.vehicles.map(item => {
+                        let status = usage.includes(item.status) ? false : item.status;
+                        item.status = status;
+                        return item;
+                    });
+                    console.log(vehs);
+                    return vehs;
+                }
 
             },
             mounted() {
