@@ -444,6 +444,7 @@
                 setpage(no) {
                     this.page = parseInt(no);
                     if (this.page == 1) this.getcale();
+                    else if (this.page == 2) this.selectdate();
                 },
 
                 getuserid(userid, profile) {
