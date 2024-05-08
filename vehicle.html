@@ -227,6 +227,7 @@
                     userid: null,
                     profile: './asset/null.jpeg',
                     calendar: null,
+                    cales: [],
                     form: {
                         msdate: null,
                         stdate: null,
@@ -321,16 +322,31 @@
                             // change the border color just for fun
                             info.el.style.borderColor = 'blue';
                         },
-                        events: [
-                            {
-                                id: 'Car-0001',
-                                title: '4ขษ7641 กรุงเทพมหานคร',
-                                start: '2024-04-22T08:30:00',
-                                end: '2024-05-03T16:30:00'
-                            }
-                        ],
+                        events: this.cales,
 
                     };
+                },
+
+                getcale() {
+                    let raw = {};
+
+                    let requestOptions = {
+                        method: "POST",
+                        redirect: "follow",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(raw),
+                    };
+
+                    fetch(this.vehsapi + "?fn=getcale", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            console.log(result);
+                            this.cales = result;
+                            setTimeout(() => { this.setcalender(); }, 300);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
                 },
 
                 getuser() {
@@ -394,7 +410,7 @@
 
                 setpage(no) {
                     this.page = parseInt(no);
-                    if (this.page == 1) setTimeout(() => { this.setcalender(); }, 500);
+                    if (this.page == 1) this.getcale();
                 },
 
                 getuserid(userid, profile) {
@@ -408,7 +424,7 @@
                     this.loadingModal.show();
                     this.getvehs();
                     this.calendar = document.querySelector('full-calendar');
-                    this.setcalender();
+                    this.getcale();
                     this.setform();
                 },
             },
