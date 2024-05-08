@@ -84,7 +84,7 @@
 
                 <div class="input-group mb-1">
                     <span class="input-group-text">ถึง</span>
-                    <input type="date" id="endate" :min="form.sttime" class="form-control" placeholder="กรอกวันที่กลับ"
+                    <input type="date" id="endate" :min="form.stdate" class="form-control" placeholder="กรอกวันที่กลับ"
                         v-model="form.endate" readonly />
                     <span class="input-group-text">เวลา</span>
                     <select id="entime" placeholder="เลือกเวลากลับ" v-model="form.entime"
@@ -181,7 +181,7 @@
 
                         <div class="input-group mb-3">
                             <span class="input-group-text">ถึง</span>
-                            <input type="date" :min="form.sttime" class="form-control" placeholder="กรอกวันที่กลับ"
+                            <input type="date" :min="form.stdate" class="form-control" placeholder="กรอกวันที่กลับ"
                                 v-model="form.endate" />
                             <span class="input-group-text">เวลา</span>
                             <select placeholder="เลือกเวลากลับ" v-model="form.entime"
@@ -304,7 +304,6 @@
                     fetch(this.vehsapi + "?fn=checkvehs", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            console.log(result);
                             this.usage = result;
                             this.loadingModal.hide();
                         })
@@ -400,7 +399,7 @@
                     fetch(this.userapi + "?fn=getuser", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            // console.log(result);
+                            console.log(result);
                             if (result.name != null) {
                                 this.user = result;
                             } else {
