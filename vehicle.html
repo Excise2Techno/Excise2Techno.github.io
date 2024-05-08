@@ -465,7 +465,7 @@
                 chkvehs() {
                     let usage = this.usage;
                     let vehs = this.vehicles.map(item => {
-                        let status = usage.includes(item.status) ? false : item.status;
+                        let status = usage.includes(item.id) ? false : item.status;
                         item.status = status;
                         return item;
                     });
