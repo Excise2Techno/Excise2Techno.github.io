@@ -320,7 +320,7 @@
                         eventClick: function (info) {
                             Swal.fire({
                                 title: "ข้อมูลการจองใช้รถ",
-                                text: info.event.text,
+                                text: info.event.title,
                                 icon: "info"
                             });
                             // alert('Event ID: ' + info.event.id);
@@ -348,7 +348,7 @@
                     fetch(this.vehsapi + "?fn=getcale", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            // console.log(result);
+                            console.log(result);
                             this.cales = result;
                             setTimeout(() => { this.setcalender(); }, 300);
                         })
