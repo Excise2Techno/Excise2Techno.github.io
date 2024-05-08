@@ -105,7 +105,7 @@
                                 <div class="d-flex justify-content-between">
                                     <div>{{ item.vtyperow }}</div>
                                     <div>
-                                        <span v-if="item.status" class="badge rounded-pill text-bg-success"
+                                        <span v-if="item.active" class="badge rounded-pill text-bg-success"
                                             style="width: 80px;">ว่าง</span>
                                         <span v-else class="badge rounded-pill text-bg-secondary"
                                             style="width: 80px;">ไม่ว่าง</span>
@@ -464,8 +464,7 @@
                 chkvehs() {
                     let usage = this.usage;
                     let vehs = this.vehicles.map(item => {
-                        let status = usage.includes(item.id) ? false : item.status;
-                        item.status = status;
+                        item.active = usage.includes(item.id) ? false : item.status;
                         return item;
                     });
                     return vehs;
