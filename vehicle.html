@@ -239,6 +239,7 @@
                         passenger: 1
                     },
                     vehicles: [],
+                    usage: [],
                     user: {
                         prename: null,
                         name: null,
@@ -279,12 +280,38 @@
                 }
             },
             methods: {
-                selectdate() {
+                saveform() {
 
                 },
 
-                saveform() {
+                selectdate() {
+                    this.loadingModal.show();
 
+                    let raw = {
+                        "stdate": this.form.stdate,
+                        "sttime": this.form.sttime,
+                        "endate": this.form.endate,
+                        "entime": this.form.entime,
+                    };
+
+                    let requestOptions = {
+                        method: "POST",
+                        redirect: "follow",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(raw),
+                    };
+
+                    fetch(this.vehsapi + "?fn=checkvehs", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            console.log(result);
+                            this.usage = result;
+                            this.loadingModal.hide();
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                            this.loadingModal.hide();
+                        });
                 },
 
                 setform() {
@@ -320,7 +347,7 @@
                         eventClick: function (info) {
                             Swal.fire({
                                 title: "ข้อมูลการจองใช้รถ",
-                                html: info.event.text,
+                                html: info.event.title + "<br />วันที่ 04/05/2567 เวลา 14.29<br />ถึงวันที่ 09/05/2567 เวลา 14.29",
                                 icon: "info"
                             });
                             // alert('Event ID: ' + info.event.id);
