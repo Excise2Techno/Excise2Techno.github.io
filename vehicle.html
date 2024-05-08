@@ -433,7 +433,6 @@
                     fetch(this.vehsapi + "?fn=getvehs", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            console.log(result);
                             this.vehicles = result;
                         })
                         .catch((error) => {
@@ -469,7 +468,6 @@
                         item.status = status;
                         return item;
                     });
-                    console.log(vehs);
                     return vehs;
                 }
 
