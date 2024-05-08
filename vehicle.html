@@ -318,16 +318,24 @@
                             right: 'today prev,next'
                         },
                         eventClick: function (info) {
-                            alert('Event ID: ' + info.event.id);
+                            Swal.fire({
+                                title: "ข้อมูลการจองใช้รถ",
+                                text: info.event.text,
+                                icon: "info"
+                            });
+                            // alert('Event ID: ' + info.event.id);
                             // change the border color just for fun
-                            info.el.style.borderColor = 'blue';
+                            // info.el.style.borderColor = 'blue';
                         },
                         events: this.cales,
 
                     };
+                    this.loadingModal.hide();
                 },
 
                 getcale() {
+                    this.loadingModal.show();
+
                     let raw = {};
 
                     let requestOptions = {
@@ -340,7 +348,7 @@
                     fetch(this.vehsapi + "?fn=getcale", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            console.log(result);
+                            // console.log(result);
                             this.cales = result;
                             setTimeout(() => { this.setcalender(); }, 300);
                         })
@@ -368,7 +376,6 @@
                             // console.log(result);
                             if (result.name != null) {
                                 this.user = result;
-                                this.loadingModal.hide();
                             } else {
                                 window.location.replace('https://liff.line.me/2003025875-p3AZ0JwL?redirect=2003025875-0Zmow7Dv');
                             }
@@ -383,7 +390,6 @@
                                 .then(data => {
                                     liff.closeWindow();
                                 });
-                            this.loadingModal.hide();
                         });
                 },
 
@@ -421,10 +427,9 @@
 
                 initfn() {
                     this.loadingModal = new bootstrap.Modal('#loadingModal', {});
-                    this.loadingModal.show();
-                    this.getvehs();
                     this.calendar = document.querySelector('full-calendar');
                     this.getcale();
+                    this.getvehs();
                     this.setform();
                 },
             },
