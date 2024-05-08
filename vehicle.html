@@ -26,7 +26,6 @@
     <style>
         .slice {
             /* white-space: nowrap; */
-            padding: 0px 5px;
             overflow-y: auto;
             -ms-overflow-style: none;
             /* for Internet Explorer, Edge */
@@ -99,7 +98,7 @@
 
                 <div class="mb-3">
                     <label class="form-label mb-2">ข้อมูลรถ</label>
-                    <div class="bg-secondary slice" style="height: 250px; border-radius: 5px;">
+                    <div class="bg-secondary px-1 slice" style="height: 250px; border-radius: 5px;">
                         <div v-for="(item, index) in chkvehs" class="card bg-light my-1">
                             <div class="card-body">
                                 <h5>{{ item.id }}</h5>
