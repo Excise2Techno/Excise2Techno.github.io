@@ -97,7 +97,7 @@
                     data-bs-target="#selectDateModal">เลือกวัน</a>
 
                 <div class="mb-3">
-                    <label class="form-label mb-2">ข้อมูลรถ</label>
+                    <label class="form-label mb-2">ข้อมูลรถ {{ havevehs }}</label>
                     <div class="bg-secondary px-1 slice" style="height: 250px; border-radius: 5px;">
                         <div v-for="(item, index) in chkvehs" class="card bg-light my-1">
                             <div class="card-body">
@@ -128,8 +128,8 @@
 
                 <div class="input-group mb-3">
                     <span class="input-group-text">จำนวยผู้ร่วมเดินทาง</span>
-                    <input type="number" id="passenger" :min="form.passenger" class="form-control"
-                        placeholder="กรอกจำนวน" v-model="form.passenger" />
+                    <input type="number" id="passenger" :min="1" class="form-control" placeholder="กรอกจำนวน"
+                        v-model.number="form.passenger" />
                 </div>
 
                 <a type="button" class="btn btn-success form-control mb-3" @click="saveform">บันทึก</a>
@@ -240,6 +240,8 @@
                     },
                     vehicles: [],
                     usage: [],
+                    tracks: [],
+                    track: {},
                     user: {
                         prename: null,
                         name: null,
@@ -281,7 +283,51 @@
             },
             methods: {
                 saveform() {
+                    this.loadingModal.show();
+                    // id	user	stdate	sttime	endate	entime	title	detail	passenger	status
+                    let raw = {
+                        "user": this.userid,
+                        "stdate": this.form.stdate,
+                        "sttime": this.form.sttime,
+                        "endate": this.form.endate,
+                        "entime": this.form.entime,
+                        "title": this.form.title,
+                        "detail": this.form.detail,
+                        "passenger": this.form.passenger,
+                    };
 
+                    let requestOptions = {
+                        method: "POST",
+                        redirect: "follow",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(raw),
+                    };
+
+                    fetch(this.vehsapi + "?fn=savecale", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            console.log(result);
+                            this.tracks = result.tracking;
+                            Swal.fire({
+                                title: result.alerttitle,
+                                text: result.alerttext,
+                                icon: result.alerticon
+                            });
+                            if (result.result) {
+                                this.setform();
+                                this.setpage(3);
+                            }
+                            this.loadingModal.hide();
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                            Swal.fire({
+                                title: "ผิดพลาด",
+                                text: "ไม่สามารถดำเนินการได้กรุณาดำการบันทึกข้อมูลใหม่หรือติดต่อเจ้าหน้าที่",
+                                icon: "warning"
+                            });
+                            this.loadingModal.hide();
+                        });
                 },
 
                 selectdate() {
@@ -344,9 +390,18 @@
                             right: 'today prev,next'
                         },
                         eventClick: function (info) {
+                            let arrst = (info.event.start).split("T");
+                            let arren = (info.event.end).split("T");
+                            let arrds = (arrst[0]).split("-");
+                            let arrts = (arrst[1]).split(":");
+                            let arrde = (arren[0]).split("-");
+                            let arrte = (arren[1]).split(":");
+                            let datest = "วันที่ " + arrds[2] + "/" + arrds[1] + "/" + (parseInt(arrds[0]) + 543) + " เวลา " + arrts[0] + "." + arrts[1];
+                            let dateen = "ถึงวันที่ " + arrde[2] + "/" + arrde[1] + "/" + (parseInt(arrde[0]) + 543) + " เวลา " + arrte[0] + "." + arrte[1];
+                            let msg = info.event.title + "<br />" + datest + "<br />" + dateen;
                             Swal.fire({
                                 title: "ข้อมูลการจองใช้รถ",
-                                html: info.event.title + "<br />วันที่ 04/05/2567 เวลา 14.29<br />ถึงวันที่ 09/05/2567 เวลา 14.29",
+                                html: msg,
                                 icon: "info"
                             });
                             // alert('Event ID: ' + info.event.id);
@@ -467,6 +522,12 @@
                         return item;
                     });
                     return vehs;
+                },
+
+                havevehs() {
+                    let usage = this.usage;
+                    let vehs = this.vehicles.filter(item => !usage.includes(item.id));
+                    return vehs.langth;
                 }
 
             },
