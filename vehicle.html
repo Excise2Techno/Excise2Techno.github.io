@@ -66,8 +66,6 @@
 
         <!-- Form -->
         <div v-else-if="page==2" class="container mb-5">
-            <!-- id	user	stdate	sttime	endate	entime	title	detail	passenger	status -->
-            <!-- id	calendar	vehicles -->
             <h3>จองรถ</h3>
             <hr />
             <div class="mb-3 g-3">
@@ -141,7 +139,34 @@
 
         <!-- Tracking -->
         <div v-else-if="page==3" class="container mb-5">
+            <h3>ข้อมูลการจอง</h3>
+            <hr />
+            <div>
+                <div v-for="(item, index) in tracks" class="card my-1">
+                    <div class="card-body">
+                        <p class="card-text">
+                        <div>{{ item.id }}</div>
+                        <div>{{ item.stdate }} {{ item.sttime }}</div>
+                        <div>{{ item.endate }} {{ item.entime }}</div>
+                        <div style="white-space: pre;">{{ item.title }}</div>
+                        <div style="white-space: pre;">{{ item.detail }}</div>
+                        <div>{{ item.passenger }}</div>
+                        <div>{{ item.status }}</div>
+                        </p>
+                        <ol class="list-group list-group-numbered">
+                            <li v-for="usage in item.usage"
+                                class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">{{ usage.vehicle }}</div>
+                                    {{ usage.chauffeur }}
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
 
+
+            </div>
         </div>
 
         <!-- navBottom -->
@@ -430,7 +455,7 @@
                         .then((response) => response.json())
                         .then((result) => {
                             console.log(result);
-                            this.tracks = result.tracking;
+                            this.tracks = result;
                         })
                         .catch((error) => {
                             console.error(error);
