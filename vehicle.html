@@ -180,8 +180,8 @@
             </div>
 
             <a type="button" class="btn btn-success"
-                style="height: 60px; width: 60px; border-radius:50%; position: fixed; right: 10px; bottom: 45px;"
-                @click="setpage(2)">+
+                style="height: 50px; width: 50px; border-radius:50%; position: fixed; right: 10px; bottom: 45px;"
+                @click="setpage(2)"><br />+
             </a>
         </div>
 
@@ -357,7 +357,7 @@
                     fetch(this.vehsapi + "?fn=savecale", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            console.log(result);
+                            // console.log(result);
                             this.tracks = result.tracking;
                             Swal.fire({
                                 title: result.alerttitle,
@@ -465,29 +465,6 @@
                     this.loadingModal.hide();
                 },
 
-                tracking() {
-                    let raw = {
-                        "user": this.userid,
-                    };
-
-                    let requestOptions = {
-                        method: "POST",
-                        redirect: "follow",
-                        headers: { "Content-Type": "text/plain;charset=utf-8" },
-                        body: JSON.stringify(raw),
-                    };
-
-                    fetch(this.vehsapi + "?fn=tracking", requestOptions)
-                        .then((response) => response.json())
-                        .then((result) => {
-                            console.log(result);
-                            this.tracks = result;
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                },
-
                 getcale() {
                     this.loadingModal.show();
 
@@ -503,9 +480,32 @@
                     fetch(this.vehsapi + "?fn=getcale", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            console.log(result);
+                            // console.log(result);
                             this.cales = result;
                             setTimeout(() => { this.setcalender(); }, 300);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                },
+
+                tracking() {
+                    let raw = {
+                        "user": this.userid,
+                    };
+
+                    let requestOptions = {
+                        method: "POST",
+                        redirect: "follow",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(raw),
+                    };
+
+                    fetch(this.vehsapi + "?fn=tracking", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            // console.log(result);
+                            this.tracks = result;
                         })
                         .catch((error) => {
                             console.error(error);
@@ -528,7 +528,7 @@
                     fetch(this.userapi + "?fn=getuser", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            console.log(result);
+                            // console.log(result);
                             if (result.name != null) {
                                 this.user = result;
                                 this.tracking();
