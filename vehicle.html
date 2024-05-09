@@ -414,6 +414,29 @@
                     this.loadingModal.hide();
                 },
 
+                tracking() {
+                    let raw = {
+                        "user": this.userid,
+                    };
+
+                    let requestOptions = {
+                        method: "POST",
+                        redirect: "follow",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(raw),
+                    };
+
+                    fetch(this.vehsapi + "?fn=tracking", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            console.log(result);
+                            this.tracks = result.tracking;
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                },
+
                 getcale() {
                     this.loadingModal.show();
 
@@ -457,6 +480,7 @@
                             console.log(result);
                             if (result.name != null) {
                                 this.user = result;
+                                this.tracking();
                             } else {
                                 window.location.replace('https://liff.line.me/2003025875-p3AZ0JwL?redirect=2003025875-0Zmow7Dv');
                             }
