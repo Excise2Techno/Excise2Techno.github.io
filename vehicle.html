@@ -95,7 +95,7 @@
                     data-bs-target="#selectDateModal">เลือกวัน</a>
 
                 <div class="mb-3">
-                    <label class="form-label mb-2">ข้อมูลรถ {{ havevehs }}</label>
+                    <label class="form-label mb-2">ข้อมูลรถ</label>
                     <div class="bg-secondary px-1 slice" style="height: 250px; border-radius: 5px;">
                         <div v-for="(item, index) in chkvehs" class="card bg-light my-1">
                             <div class="card-body">
@@ -133,11 +133,10 @@
                         v-model.number="form.passenger" />
                 </div>
 
-                <a type="button" class="btn btn-secondary form-control mb-3" aria-disabled="true">บันทึก</a>
-                <a type="button" class="btn btn-success form-control mb-3" @click="saveform">บันทึก</a>
+                <a v-if="havevehs==0" type="button" class="btn btn-secondary form-control mb-3"
+                    aria-disabled="true">บันทึก</a>
+                <a v-else type="button" class="btn btn-success form-control mb-3" @click="saveform">บันทึก</a>
             </div>
-
-
 
         </div>
 
