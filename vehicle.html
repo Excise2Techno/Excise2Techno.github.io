@@ -142,17 +142,23 @@
             <h3>ข้อมูลการจอง</h3>
             <hr />
             <div>
-                <div v-for="(item, index) in tracks" class="card my-1">
+                <div v-for="(item, index) in tracks" class="card mb-3">
                     <div class="card-body">
+                        <h5 class="card-title">{{ item.id }}</h5>
                         <p class="card-text">
-                        <div>{{ item.id }}</div>
-                        <div>{{ item.stdate }} {{ item.sttime }}</div>
-                        <div>{{ item.endate }} {{ item.entime }}</div>
+
                         <div style="white-space: pre;">{{ item.title }}</div>
+                        <div>วันที่ {{ showdate(item.stdate) }} เวลา {{ showtime(item.sttime) }} น.</div>
+                        <div>ถึงวันที่ {{ showdate(item.endate) }} เวลา {{ showtime(item.entime) }} น.</div>
+
                         <div style="white-space: pre;">{{ item.detail }}</div>
-                        <div>{{ item.passenger }}</div>
-                        <div>{{ item.status }}</div>
-                        </p>
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>ผู้ร่วมเดินทาง {{ item.passenger }} คน</div>
+                            <div v-if="item.status=='Booking'" class="badge text-bg-warning">Booking</div>
+                            <div v-else-if="item.status=='Active'" class="badge text-bg-primary">Active</div>
+                        </div>
+
+                        <b>ข้อมูลรถ</b>
                         <ol class="list-group list-group-numbered">
                             <li v-for="usage in item.usage"
                                 class="list-group-item d-flex justify-content-between align-items-start">
@@ -162,6 +168,7 @@
                                 </div>
                             </li>
                         </ol>
+                        </p>
                     </div>
                 </div>
 
@@ -307,9 +314,19 @@
                 }
             },
             methods: {
+                showdate(str) {
+                    let arrstr = str.split("/");
+                    return arrstr[0] + "/" + arrstr[1] + "/" + (parseInt(arrstr[2]) + 543);
+                },
+
+                showtime(str) {
+                    let arrstr = str.split(":");
+                    return arrstr[0] + "." + arrstr[1];
+                },
+
                 saveform() {
                     this.loadingModal.show();
-                    // id	user	stdate	sttime	endate	entime	title	detail	passenger	status
+
                     let raw = {
                         "user": this.userid,
                         "stdate": this.form.stdate,
@@ -421,8 +438,8 @@
                             let arrts = (arrst[1]).split(":");
                             let arrde = (arren[0]).split("-");
                             let arrte = (arren[1]).split(":");
-                            let datest = arrds[2] + arrds[1] + (parseInt(arrds[0]) + 543) + " เวลา " + arrts[0] + "." + arrts[1];
-                            let dateen = arrde[2] + arrde[1] + (parseInt(arrde[0]) + 543) + " เวลา " + arrte[0] + "." + arrte[1];
+                            let datest = arrds[2] + arrds[1] + (parseInt(arrds[0]) + 543) + " เวลา " + arrts[0] + "." + arrts[1] + " น.";
+                            let dateen = arrde[2] + arrde[1] + (parseInt(arrde[0]) + 543) + " เวลา " + arrte[0] + "." + arrte[1] + " น.";
                             let msg = info.event.title + "<br />วันที่ " + datest + "<br />ถึงวันที่ " + dateen;
                             Swal.fire({
                                 title: "ข้อมูลการจองใช้รถ",
