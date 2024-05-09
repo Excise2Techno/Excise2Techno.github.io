@@ -179,9 +179,12 @@
 
             </div>
 
-            <a type="button" class="btn btn-success"
-                style="height: 50px; width: 50px; border-radius:50%; position: fixed; right: 10px; bottom: 45px;"
-                @click="setpage(2)"><br />+
+            <a class="bg-success"
+                style="height: 55px; width: 55px; border-radius:50%; position: fixed; right: 10px; bottom: 45px;"
+                @click="setpage(2)">
+                <div class="position-relative" style="width: 100%; height: 100%;">
+                    <div class="position-absolute top-50 start-50 text-white">+</div>
+                </div>
             </a>
         </div>
 
@@ -602,7 +605,7 @@
                 havevehs() {
                     let usage = this.usage;
                     let vehs = this.vehicles.filter(item => !usage.includes(item.id));
-                    console.log(vehs);
+                    // console.log(vehs);
                     return vehs.length;
                 }
 
