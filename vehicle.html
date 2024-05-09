@@ -390,8 +390,10 @@
                             right: 'today prev,next'
                         },
                         eventClick: function (info) {
-                            let arrst = (info.event.start).split("T");
-                            let arren = (info.event.end).split("T");
+                            let stdate = info.event.start;
+                            let endate = info.event.end;
+                            let arrst = stdate.split("T");
+                            let arren = endate.split("T");
                             let arrds = (arrst[0]).split("-");
                             let arrts = (arrst[1]).split(":");
                             let arrde = (arren[0]).split("-");
