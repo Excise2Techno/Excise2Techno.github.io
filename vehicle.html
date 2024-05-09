@@ -390,17 +390,7 @@
                             right: 'today prev,next'
                         },
                         eventClick: function (info) {
-                            let stdate = info.event.start;
-                            let endate = info.event.end;
-                            let arrst = String(stdate).split("T");
-                            let arren = String(endate).split("T");
-                            let arrds = (arrst[0]).split("-");
-                            let arrts = (arrst[1]).split(":");
-                            let arrde = (arren[0]).split("-");
-                            let arrte = (arren[1]).split(":");
-                            let datest = "วันที่ " + arrds[2] + "/" + arrds[1] + "/" + (parseInt(arrds[0]) + 543) + " เวลา " + arrts[0] + "." + arrts[1];
-                            let dateen = "ถึงวันที่ " + arrde[2] + "/" + arrde[1] + "/" + (parseInt(arrde[0]) + 543) + " เวลา " + arrte[0] + "." + arrte[1];
-                            let msg = info.event.title + "<br />" + datest + "<br />" + dateen;
+                            let msg = info.event.title + "<br />" + info.event.datest + "<br />" + info.event.dateen;
                             Swal.fire({
                                 title: "ข้อมูลการจองใช้รถ",
                                 html: msg,
