@@ -373,6 +373,18 @@
                             if (result.result) {
                                 this.setform();
                                 this.setpage(3);
+                                liff.sendMessages([
+                                    {
+                                        type: "เลขที่การจอง: " + result.id,
+                                        text: msg,
+                                    },
+                                ])
+                                    .then(() => {
+                                        console.log("message sent");
+                                    })
+                                    .catch((err) => {
+                                        console.log("error", err);
+                                    });
                             }
                             this.loadingModal.hide();
                         })
