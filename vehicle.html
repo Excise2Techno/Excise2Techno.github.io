@@ -391,7 +391,7 @@
                         },
                         eventClick: function (info) {
                             let msg = info.event.title + "<br />" + info.event.datest + "<br />" + info.event.dateen;
-                            let data = info;
+                            let data = info._def;
                             console.log(data);
                             Swal.fire({
                                 title: "ข้อมูลการจองใช้รถ",
