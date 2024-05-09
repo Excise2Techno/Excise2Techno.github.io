@@ -130,6 +130,7 @@
                         v-model.number="form.passenger" />
                 </div>
 
+                <a type="button" class="btn btn-secondary form-control mb-3" aria-disabled="true">บันทึก</a>
                 <a type="button" class="btn btn-success form-control mb-3" @click="saveform">บันทึก</a>
             </div>
 
@@ -142,6 +143,7 @@
             <h3>ข้อมูลการจอง</h3>
             <hr />
             <div class="mb-5">
+
                 <div v-for="(item, index) in tracks" class="card mb-3">
                     <div class="card-body">
                         <h5 class="card-title">{{ item.id }}</h5>
@@ -176,6 +178,13 @@
                 </div>
 
             </div>
+
+            <a type="button" class="btn btn-success"
+                style="height: 80px; width: 80px; position: fixed; right: 10px; bottom: 30px;" @click="setpage(2)">
+                <div class="position-relative" style="width: 100%; height: 100%;">
+                    <div class="position-absolute top-50 start-50">+</div>
+                </div>
+            </a>
         </div>
 
         <!-- navBottom -->
