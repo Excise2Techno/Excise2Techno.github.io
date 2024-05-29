@@ -265,6 +265,20 @@
                             .then((result) => {
                                 // console.log(result);
                                 this.user = result.user;
+
+                                liff.sendMessages([
+                                    {
+                                        type: "text",
+                                        text: "ลงทะเบียนใช้งานระบบ\n" + prename + " " + name + " " + surname,
+                                    },
+                                ])
+                                    .then(() => {
+                                        console.log("message sent");
+                                    })
+                                    .catch((err) => {
+                                        console.log("error", err);
+                                    });
+
                                 this.loadingModal.hide();
                                 Swal.fire({
                                     title: result.alerttitle,
