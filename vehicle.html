@@ -559,7 +559,20 @@
                         cancelButtonText: "ปิด",
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            Swal.fire("Saved!", "", "success");
+
+                            this.loadingModal.show();
+
+                            fetch(this.vehsapi + "?fn=uncale", requestOptions)
+                                .then((response) => response.json())
+                                .then((result) => {
+                                    this.tracks = result;
+                                    this.loadingModal.hide();
+                                })
+                                .catch((error) => {
+                                    console.error(error);
+                                    this.loadingModal.hide();
+                                });
+
                         }
                     });
                 },
