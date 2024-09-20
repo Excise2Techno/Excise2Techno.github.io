@@ -225,6 +225,9 @@
                         {{ book.datest }}<br />
                         {{ book.dateen }}<br />
                         <br />
+                        <label>รายละเอียดการเดินทาง</label>
+                        <div>{{ book.title }}</div>
+                        <br />
                         <div v-for="item in book.user">
                             <b>ผู้จอง : </b>{{ item.prename }}&nbsp;{{ item.name }}&nbsp;{{ item.surname }}<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>{{ item.division }}</b>
