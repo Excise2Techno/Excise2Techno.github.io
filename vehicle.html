@@ -519,7 +519,22 @@
                         .then((response) => response.json())
                         .then((result) => {
                             console.log(result);
-                            // this.cales = result;
+                            let cales = [];
+                            this.books = result;
+                            result.forEach(item => {
+                                let vehs = item.vehs;
+                                vehs.forEach(veh => {
+                                    let cale = {
+                                        id: item.id,
+                                        title: veh.vehicles,
+                                        start: veh.start,
+                                        end: veh.end,
+                                        color: item.color
+                                    };
+                                    cales.push(cale);
+                                })
+                            });
+                            console.log(cales);
                             // setTimeout(() => { this.setcalender(); }, 300);
                         })
                         .catch((error) => {
