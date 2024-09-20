@@ -467,7 +467,7 @@
                             left: 'title',
                             right: 'today prev,next'
                         },
-                        eventClick: function (info) {
+                        eventClick: (info) => {
                             let id = info.event.id;
                             let arrst = info.event.startStr.split("T");
                             let arren = info.event.endStr.split("T");
@@ -486,9 +486,9 @@
                             // console.log(id);
                             try {
                                 // this.book = this.books.filter(item => item.id = id)[0];
-                                console.log(app.books);
+                                console.log(this.books);
                             } catch (e) {
-                                app.book = {};
+                                this.book = {};
                                 console.log(e);
                             }
                             // alert('Event ID: ' + info.event.id);
