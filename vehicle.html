@@ -225,7 +225,7 @@
                         {{ book.datest }}<br />
                         {{ book.dateen }}<br />
                         <br />
-                        <label>รายละเอียดการเดินทาง</label>
+                        <b>รายละเอียดการเดินทาง</b><br />
                         <div style="white-space: break-spaces;">{{ book.title }}</div>
                         <br />
                         <div v-for="item in book.user">
@@ -233,7 +233,7 @@
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>{{ item.division }}</b>
                         </div>
                         <br />
-                        <label>ข้อมูลรถ :</label>
+                        <b>ข้อมูลรถ :</b><br />
                         <ol>
                             <li v-for="item in book.vehs">
                                 {{ item.vehicles }}<br />
