@@ -212,6 +212,35 @@
             <a v-else class="nav-link" @click="setpage(3)">การจอง</a>
         </nav>
 
+        <!-- selectCaleModal -->
+        <div class="modal fade" id="selectCaleModal" tabindex="-1" aria-labelledby="selectCaleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="selectCaleModalLabel">ข้อมูลการจองใช้รถ</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ book.datest }}<br />
+                        {{ book.dateen }}<br />
+                        <label>ผู้จอง :</label>
+                        <div v-for="item in book.user">
+                            {{ item.prename }}&nbsp;{{ item.name }}&nbsp;{{ item.surname }}<br />
+                            <b>{{ item.division }}</b>
+                        </div>
+                        <label>ข้อมูลรถ :</label>
+                        <ol>
+                            <li v-for="item in book.vehs">{{ item.vehicles }}&nbsp;พลขับ&nbsp;{{ item.chauffeur }}</li>
+                        </ol>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- selectDateModal -->
         <div class="modal fade" id="selectDateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="selectDateModalLabel" aria-hidden="true">
@@ -278,6 +307,7 @@
             data() {
                 return {
                     loadingModal: null,
+                    selectCaleModal: null,
                     userid: null,
                     profile: './asset/null.jpeg',
                     calendar: null,
@@ -487,6 +517,7 @@
                             try {
                                 this.book = this.books.filter(item => item.id = id)[0];
                                 console.log(this.book);
+                                this.selectCaleModal.show();
                             } catch (e) {
                                 this.book = {};
                                 console.log(e);
@@ -674,6 +705,7 @@
 
                 initfn() {
                     this.loadingModal = new bootstrap.Modal('#loadingModal', {});
+                    this.selectCaleModal = new bootstrap.Modal('#selectCaleModal', {});
                     this.calendar = document.querySelector('full-calendar');
                     this.getcale();
                     this.getvehs();
