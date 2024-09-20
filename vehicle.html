@@ -281,6 +281,8 @@
                     userid: null,
                     profile: './asset/null.jpeg',
                     calendar: null,
+                    books: [],
+                    book: {},
                     cales: [],
                     form: {
                         msdate: null,
@@ -508,6 +510,17 @@
                             // console.log(result);
                             this.cales = result;
                             setTimeout(() => { this.setcalender(); }, 300);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+
+                    fetch(this.vehsapi + "?fn=getcales", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            console.log(result);
+                            // this.cales = result;
+                            // setTimeout(() => { this.setcalender(); }, 300);
                         })
                         .catch((error) => {
                             console.error(error);
