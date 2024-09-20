@@ -525,8 +525,10 @@
                             // });
 
                             try {
+                                let book = this.books.filter(item => item.id = id);
+                                console.log(book);
                                 this.book = this.books.filter(item => item.id = id)[0];
-                                console.log(this.book);
+                                // console.log(this.book);
                                 this.selectCaleModal.show();
                             } catch (e) {
                                 this.book = {};
