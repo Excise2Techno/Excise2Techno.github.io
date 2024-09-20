@@ -485,8 +485,8 @@
                             });
                             // console.log(id);
                             try {
-                                // this.book = this.books.filter(item => item.id = id)[0];
-                                console.log(this.books);
+                                this.book = this.books.filter(item => item.id = id)[0];
+                                console.log(this.book);
                             } catch (e) {
                                 this.book = {};
                                 console.log(e);
@@ -513,16 +513,16 @@
                         body: JSON.stringify(raw),
                     };
 
-                    fetch(this.vehsapi + "?fn=getcale", requestOptions)
-                        .then((response) => response.json())
-                        .then((result) => {
-                            // console.log(result);
-                            this.cales = result;
-                            setTimeout(() => { this.setcalender(); }, 300);
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
+                    // fetch(this.vehsapi + "?fn=getcale", requestOptions)
+                    //     .then((response) => response.json())
+                    //     .then((result) => {
+                    //         console.log(result);
+                    //         this.cales = result;
+                    //         setTimeout(() => { this.setcalender(); }, 300);
+                    //     })
+                    //     .catch((error) => {
+                    //         console.error(error);
+                    //     });
 
                     fetch(this.vehsapi + "?fn=getcales", requestOptions)
                         .then((response) => response.json())
@@ -543,9 +543,8 @@
                                     cales.push(cale);
                                 })
                             });
-                            console.log(this.books);
-                            console.log(cales);
-                            // setTimeout(() => { this.setcalender(); }, 300);
+                            this.cales = cales;
+                            setTimeout(() => { this.setcalender(); }, 300);
                         })
                         .catch((error) => {
                             console.error(error);
