@@ -226,7 +226,7 @@
                         {{ book.dateen }}<br />
                         <br />
                         <label>รายละเอียดการเดินทาง</label>
-                        <div>{{ book.title }}</div>
+                        <div style="white-space: break-spaces;">{{ book.title }}</div>
                         <br />
                         <div v-for="item in book.user">
                             <b>ผู้จอง : </b>{{ item.prename }}&nbsp;{{ item.name }}&nbsp;{{ item.surname }}<br />
