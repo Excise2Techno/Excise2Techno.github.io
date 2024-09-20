@@ -507,22 +507,7 @@
                         },
                         eventClick: (info) => {
                             let id = info.event.id;
-                            // let arrst = info.event.startStr.split("T");
-                            // let arren = info.event.endStr.split("T");
-                            // let arrds = (arrst[0]).split("-");
-                            // let arrts = (arrst[1]).split(":");
-                            // let arrde = (arren[0]).split("-");
-                            // let arrte = (arren[1]).split(":");
-                            // let datest = arrds[2] + "/" + arrds[1] + "/" + (parseInt(arrds[0]) + 543) + " เวลา " + arrts[0] + "." + arrts[1] + " น.";
-                            // let dateen = arrde[2] + "/" + arrde[1] + "/" + (parseInt(arrde[0]) + 543) + " เวลา " + arrte[0] + "." + arrte[1] + " น.";
-                            // let msg = info.event.title + "<br />วันที่ " + datest + "<br />ถึงวันที่ " + dateen;
-
-                            // Swal.fire({
-                            //     title: "ข้อมูลการจองใช้รถ",
-                            //     html: msg,
-                            //     icon: "info"
-                            // });
-
+                            console.log(id);
                             try {
                                 this.book = this.books.filter(item => item.id = id)[0];
                                 console.log(this.book);
