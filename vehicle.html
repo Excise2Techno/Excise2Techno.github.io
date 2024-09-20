@@ -225,15 +225,17 @@
                         {{ book.datest }}<br />
                         {{ book.dateen }}<br />
                         <br />
-                        <label>ผู้จอง :</label>
                         <div v-for="item in book.user">
-                            {{ item.prename }}&nbsp;{{ item.name }}&nbsp;{{ item.surname }}<br />
+                            <b>ผู้จอง : </b>{{ item.prename }}&nbsp;{{ item.name }}&nbsp;{{ item.surname }}<br />
                             <b>{{ item.division }}</b>
                         </div>
                         <br />
                         <label>ข้อมูลรถ :</label>
                         <ol>
-                            <li v-for="item in book.vehs">{{ item.vehicles }} พลขับ&nbsp;{{ item.chauffeur }}</li>
+                            <li v-for="item in book.vehs">
+                                {{ item.vehicles }}<br />
+                                <b>พลขับ: </b>{{ item.chauffeur }}
+                            </li>
                         </ol>
                     </div>
                     <div class="modal-footer text-center">
@@ -524,6 +526,7 @@
                             } catch (e) {
                                 this.book = {};
                                 console.log(e);
+                                Swal.fire("Error", "System Error", "error");
                             }
                             // alert('Event ID: ' + info.event.id);
                             // change the border color just for fun
