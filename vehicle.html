@@ -507,7 +507,6 @@
                         },
                         eventClick: (info) => {
                             let id = info.event.id;
-                            console.log(id);
                             // let arrst = info.event.startStr.split("T");
                             // let arren = info.event.endStr.split("T");
                             // let arrds = (arrst[0]).split("-");
@@ -525,10 +524,7 @@
                             // });
 
                             try {
-                                let book = this.books.filter(item => item.id == id);
-                                console.log(book);
                                 this.book = this.books.filter(item => item.id == id)[0];
-                                // console.log(this.book);
                                 this.selectCaleModal.show();
                             } catch (e) {
                                 this.book = {};
@@ -578,8 +574,6 @@
                             });
                             this.cales = cales;
                             setTimeout(() => { this.setcalender(); }, 300);
-                            console.log(this.books);
-                            console.log(this.cales);
                         })
                         .catch((error) => {
                             console.error(error);
