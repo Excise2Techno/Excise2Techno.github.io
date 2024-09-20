@@ -513,17 +513,6 @@
                         body: JSON.stringify(raw),
                     };
 
-                    // fetch(this.vehsapi + "?fn=getcale", requestOptions)
-                    //     .then((response) => response.json())
-                    //     .then((result) => {
-                    //         console.log(result);
-                    //         this.cales = result;
-                    //         setTimeout(() => { this.setcalender(); }, 300);
-                    //     })
-                    //     .catch((error) => {
-                    //         console.error(error);
-                    //     });
-
                     fetch(this.vehsapi + "?fn=getcales", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
