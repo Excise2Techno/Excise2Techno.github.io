@@ -484,6 +484,13 @@
                                 icon: "info"
                             });
                             console.log(id);
+                            try {
+                                this.book = this.books.filter(item => item.id = id)[0];
+                                console.log(this.book);
+                            } catch (e) {
+                                this.book = {};
+                                console.log(e);
+                            }
                             // alert('Event ID: ' + info.event.id);
                             // change the border color just for fun
                             // info.el.style.borderColor = 'blue';
