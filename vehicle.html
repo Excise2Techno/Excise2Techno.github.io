@@ -518,7 +518,7 @@
                     fetch(this.vehsapi + "?fn=getcales", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            console.log(result);
+                            // console.log(result);
                             let cales = [];
                             this.books = result;
                             result.forEach(item => {
