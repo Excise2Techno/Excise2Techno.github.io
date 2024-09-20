@@ -219,7 +219,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="selectCaleModalLabel">ข้อมูลการจองใช้รถ</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                     </div>
                     <div class="modal-body">
                         {{ book.datest }}<br />
@@ -227,7 +227,7 @@
                         <br />
                         <div v-for="item in book.user">
                             <b>ผู้จอง : </b>{{ item.prename }}&nbsp;{{ item.name }}&nbsp;{{ item.surname }}<br />
-                            <b>{{ item.division }}</b>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>{{ item.division }}</b>
                         </div>
                         <br />
                         <label>ข้อมูลรถ :</label>
@@ -242,9 +242,9 @@
                             <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
-                    <div class="modal-footer text-center">
+                    <!-- <div class="modal-footer text-center">
                         <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
