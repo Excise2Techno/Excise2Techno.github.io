@@ -224,11 +224,13 @@
                     <div class="modal-body">
                         {{ book.datest }}<br />
                         {{ book.dateen }}<br />
+                        <br />
                         <label>ผู้จอง :</label>
                         <div v-for="item in book.user">
                             {{ item.prename }}&nbsp;{{ item.name }}&nbsp;{{ item.surname }}<br />
                             <b>{{ item.division }}</b>
                         </div>
+                        <br />
                         <label>ข้อมูลรถ :</label>
                         <ol>
                             <li v-for="item in book.vehs">{{ item.vehicles }}&nbsp;พลขับ&nbsp;{{ item.chauffeur }}</li>
@@ -508,12 +510,13 @@
                             let datest = arrds[2] + "/" + arrds[1] + "/" + (parseInt(arrds[0]) + 543) + " เวลา " + arrts[0] + "." + arrts[1] + " น.";
                             let dateen = arrde[2] + "/" + arrde[1] + "/" + (parseInt(arrde[0]) + 543) + " เวลา " + arrte[0] + "." + arrte[1] + " น.";
                             let msg = info.event.title + "<br />วันที่ " + datest + "<br />ถึงวันที่ " + dateen;
+
                             Swal.fire({
                                 title: "ข้อมูลการจองใช้รถ",
                                 html: msg,
                                 icon: "info"
                             });
-                            // console.log(id);
+
                             try {
                                 this.book = this.books.filter(item => item.id = id)[0];
                                 console.log(this.book);
