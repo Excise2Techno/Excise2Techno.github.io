@@ -51,10 +51,10 @@
                             style="width: 150px;">{{ user.status }}</span>
                         <span v-else class="badge rounded-pill text-bg-secondary" style="width: 150px;">{{ user.status
                             }}</span>
-                        <div class="my-5 text-end">
+                        <hr />
+                        <div class="text-end">
                             <a class="btn btn-warning" @click="edituser">แก้ไขข้อมูล</a>
                         </div>
-
                     </div>
                     <div v-else class="g-3">
                         <h2>ลงทะเบียนผู้ใช้งาน</h2>
@@ -351,7 +351,7 @@
                 },
 
                 edituser() {
-                    editModal.show();
+                    this.editModal.show();
                     setTimeout(() => {
                         document.getElementById('editprename').value = this.edit.prename;
                         document.getElementById('editusername').value = this.edit.name;
