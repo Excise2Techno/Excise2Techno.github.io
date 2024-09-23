@@ -51,6 +51,9 @@
                             style="width: 150px;">{{ user.status }}</span>
                         <span v-else class="badge rounded-pill text-bg-secondary" style="width: 150px;">{{ user.status
                             }}</span>
+                        <div class="my-5 text-end">
+                            <a class="btn btn-warning" @click="edituser">แก้ไขข้อมูล</a>
+                        </div>
 
                     </div>
                     <div v-else class="g-3">
@@ -92,6 +95,48 @@
 
         </div>
 
+        <!-- editModal -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="editModalLabel">แก้ไขข้อมูล</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label for="prename" class="form-label">คำนำหน้าชื่อ</label>
+                            <input type="text" class="form-control" id="editprename" placeholder="กรอกคำนำหน้าชื่อ">
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">ชื่อ</label>
+                            <input type="text" class="form-control" id="editusername" placeholder="กรอกชื่อ">
+                        </div>
+                        <div class="mb-3">
+                            <label for="surname" class="form-label">นามสกุล</label>
+                            <input type="text" class="form-control" id="editsurname" placeholder="กรอกนามสกุล">
+                        </div>
+                        <div class="mb-3">
+                            <label for="position" class="form-label">ตำแหน่ง</label>
+                            <input type="text" class="form-control" id="editposition" placeholder="กรอกตำแหน่ง">
+                        </div>
+                        <div class="mb-3">
+                            <label for="division" class="form-label">ส่วน</label>
+                            <select class="form-select" id="editdivision">
+                                <option value=null disabled> --เลือกส่วน-- </option>
+                                <option v-for="item in divis" :value="item">{{ item }}</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" @click="saveuser">บันทึก</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- loadingModal -->
         <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -119,6 +164,7 @@
         const app = Vue.createApp({
             data() {
                 return {
+                    editModal: null,
                     loadingModal: null,
                     redirect: null,
                     userid: null,
@@ -304,6 +350,117 @@
 
                 },
 
+                edituser() {
+                    editModal.show();
+                    setTimeout(() => {
+                        document.getElementById('editprename').value = this.edit.prename;
+                        document.getElementById('editusername').value = this.edit.name;
+                        document.getElementById('editsurname').value = this.edit.surname;
+                        document.getElementById('editposition').value = this.edit.position;
+                        document.getElementById('editdivision').value = this.edit.division;
+                    }, 500);
+                },
+
+                saveuser() {
+                    let prename = document.getElementById('editprename').value;
+                    let name = document.getElementById('editusername').value;
+                    let surname = document.getElementById('editsurname').value;
+                    let position = document.getElementById('editposition').value;
+                    let division = document.getElementById('editdivision').value;
+
+                    if (prename == null || prename == '') {
+                        document.getElementById('editprename').focus();
+                        Swal.fire({
+                            title: "ผิดพลาด",
+                            text: "กรุณากรอกคำนำหน้าชื่อ",
+                            icon: "error"
+                        });
+                    } else if (name == null || name == '') {
+                        document.getElementById('editusername').focus();
+                        Swal.fire({
+                            title: "ผิดพลาด",
+                            text: "กรุณากรอกชื่อ",
+                            icon: "error"
+                        });
+                    } else if (surname == null || surname == '') {
+                        document.getElementById('editsurname').focus();
+                        Swal.fire({
+                            title: "ผิดพลาด",
+                            text: "กรุณากรอกนามสกุล",
+                            icon: "error"
+                        });
+                    } else if (position == null || position == '') {
+                        document.getElementById('editposition').focus();
+                        Swal.fire({
+                            title: "ผิดพลาด",
+                            text: "กรุณากรอกตำแหน่ง",
+                            icon: "error"
+                        });
+                    } else if (division == null || division == '') {
+                        document.getElementById('editdivision').focus();
+                        Swal.fire({
+                            title: "ผิดพลาด",
+                            text: "กรุณากรอกส่วนงาน",
+                            icon: "error"
+                        });
+                    } else {
+                        this.loadingModal.show();
+                        let raw = {
+                            "userid": this.userid,
+                            "prename": prename,
+                            "name": name,
+                            "surname": surname,
+                            "position": position,
+                            "division": division
+                        };
+
+                        let requestOptions = {
+                            method: "POST",
+                            redirect: "follow",
+                            headers: { "Content-Type": "text/plain;charset=utf-8" },
+                            body: JSON.stringify(raw),
+
+                        };
+
+                        fetch(this.userapi + "?fn=edituser", requestOptions)
+                            .then((response) => response.json())
+                            .then((result) => {
+                                // console.log(result);
+                                this.user = result.user;
+
+                                liff.sendMessages([
+                                    {
+                                        type: "text",
+                                        text: "ปรับปรุงข้อมูลผู้ใช้\n" + prename + " " + name + " " + surname,
+                                    },
+                                ])
+                                    .then(() => {
+                                        console.log("message sent");
+                                    })
+                                    .catch((err) => {
+                                        console.log("error", err);
+                                    });
+
+                                this.loadingModal.hide();
+                                Swal.fire({
+                                    title: result.alerttitle,
+                                    text: result.alerttext,
+                                    icon: result.alerticon
+                                })
+
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                                this.loadingModal.hide();
+                                Swal.fire({
+                                    title: "ผิดพลาด",
+                                    text: "การดำเนินการผิดพลาด",
+                                    icon: "error"
+                                });
+                            });
+                    }
+                },
+
                 getuserid(userid, profile) {
                     this.userid = userid;
                     this.profile = profile;
@@ -311,6 +468,7 @@
                 },
 
                 initfn() {
+                    this.editModal = new bootstrap.Modal('#editModal', {});
                     this.loadingModal = new bootstrap.Modal('#loadingModal', {});
                     this.loadingModal.show();
                 },
