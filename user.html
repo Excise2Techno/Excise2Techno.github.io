@@ -441,7 +441,9 @@
                                         console.log("error", err);
                                     });
 
+                                this.editModal.hide();
                                 this.loadingModal.hide();
+
                                 Swal.fire({
                                     title: result.alerttitle,
                                     text: result.alerttext,
