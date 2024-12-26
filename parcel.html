@@ -62,7 +62,7 @@
 
     <div id="app">
 
-        <div class="container-fluid mb-5">
+        <div v-if="page==1" class="container-fluid mb-5">
             <div class="bg-info p-3" style="width: 100%; position: fixed; left: 0px; top: 50px;">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search....." v-model="searchtxt">
@@ -83,17 +83,44 @@
             </div>
         </div>
 
+        <div v-else-if="page==2" class="container-fluid mb-5">
+            <h1 style="margin-top: 64px;">ตะกร้า</h1>
+            <hr />
+            <div class="slice mb-5">
+                <table class="table table-striped table-hover">
+                    <tbody>
+                        <tr v-for="item in carts" @click="selectcart(item)">
+                            <th>{{item.code}}</th>
+                            <td class="text-break">{{item.detail}}</td>
+                            <td class="text-end">{{item.amount}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- navBottom -->
+        <!-- <nav class="nav fixed-bottom bg-body-tertiary d-flex justify-content-evenly">
+            <a v-if="page==1" class="nav-link active" aria-current="page">รายการ</a>
+            <a v-else class="nav-link" @click="setpage(1)">รายการ</a>
+        
+            <a v-if="user.status!='Active'" class="nav-link disabled" aria-disabled="true">ฟอร์มเบิก</a>
+            <a v-else-if="page==2" class="nav-link active" aria-current="page">ฟอร์มเบิก</a>
+            <a v-else class="nav-link" @click="setpage(2)">ฟอร์มเบิก</a>
+        
+            <a v-if="user.status!='Active'" class="nav-link disabled" aria-disabled="true">การเบิก</a>
+            <a v-else-if="page==3" class="nav-link active" aria-current="page">การเบิก</a>
+            <a v-else class="nav-link" @click="setpage(3)">การเบิก</a>
+        </nav> -->
+
         <nav class="nav fixed-bottom bg-body-tertiary d-flex justify-content-evenly">
             <a v-if="page==1" class="nav-link active" aria-current="page">รายการ</a>
             <a v-else class="nav-link" @click="setpage(1)">รายการ</a>
 
-            <a v-if="user.status!='Active'" class="nav-link disabled" aria-disabled="true">ฟอร์มเบิก</a>
-            <a v-else-if="page==2" class="nav-link active" aria-current="page">ฟอร์มเบิก</a>
+            <a v-if="page==2" class="nav-link active" aria-current="page">ฟอร์มเบิก</a>
             <a v-else class="nav-link" @click="setpage(2)">ฟอร์มเบิก</a>
 
-            <a v-if="user.status!='Active'" class="nav-link disabled" aria-disabled="true">การเบิก</a>
-            <a v-else-if="page==3" class="nav-link active" aria-current="page">การเบิก</a>
+            <a v-if="page==3" class="nav-link active" aria-current="page">การเบิก</a>
             <a v-else class="nav-link" @click="setpage(3)">การเบิก</a>
         </nav>
 
@@ -126,8 +153,45 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button v-if="candraw" type="button" class="btn btn-primary">ลงตะกร้า</button>
+                        <button v-if="candraw" type="button" class="btn btn-primary" @click="addcart">ลงตะกร้า</button>
                         <button v-else type="button" class="btn btn-primary" disabled>ลงตะกร้า</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- cartModal -->
+        <div class="modal fade" id="cartModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="cartModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <th class="bg-secondary">รหัส</th>
+                                    <td>{{ cart.code }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-secondary">รายการ</th>
+                                    <td>{{ cart.detail }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-secondary">คงเหลือ</th>
+                                    <td class="text-end">{{ cart.remain }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-secondary">เบิก</th>
+                                    <td><input type="number" class="form-control" id="cartamount" placeholder="จำนวน"
+                                            value="0" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" @click="savecart">บันทึก</button>
+                        <button type="button" class="btn btn-danger" @click="removecart">ยกเลิก</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
                     </div>
                 </div>
@@ -161,6 +225,7 @@
                 return {
                     loadingModal: null,
                     parcelModal: null,
+                    cartModal: null,
                     userid: null,
                     profile: './asset/null.jpeg',
                     searchtxt: null,
@@ -215,6 +280,43 @@
                     this.parcelModal.show();
                 },
 
+                addcart() {
+                    let indexno = this.carts.findIndex(item => item.code == this.parcel.code && item.detail == this.parcel.detail);
+                    if (indexno >= 0) this.carts[indexno] = this.parcel;
+                    else this.carts.push(this.parcel);
+                    Swal.fire("Success", "ดำเนินการเสร็จสิ้น !", "success");
+                    this.parcelModal.hide();
+                },
+
+                selectcart(item) {
+                    this.cart = item;
+                    document.getElementById('cartamount').value = this.cart.amount;
+                    this.cartModal.show();
+                },
+
+                savecart() {
+                    let amount = parseInt(document.getElementById('cartamount').value);
+                    if (amount > 0) {
+                        let indexno = this.carts.findIndex(item => item.code == this.cart.code && item.detail == this.cart.detail);
+                        this.carts[indexno].amount = amount;
+                        Swal.fire("Success", "ดำเนินการเสร็จสิ้น !", "success");
+                        this.cartModal.hide();
+                    } else {
+                        document.getElementById('cartamount').focus();
+                        Swal.fire("Error", "กรอกจำนวนไม่ถูกต้อง !", "error");
+                    }
+
+                    console.log(this.carts);
+                },
+
+                removecart() {
+                    let temp = this.carts.filter(item => item.code != this.cart.code || item.detail != this.cart.detail);
+                    this.carts = [];
+                    this.carts = temp;
+                    Swal.fire("Success", "ดำเนินการเสร็จสิ้น !", "success");
+                    this.cartModal.hide();
+                },
+
                 getuser() {
                     let raw = {
                         "userid": this.userid,
@@ -266,6 +368,7 @@
                 initfn() {
                     this.loadingModal = new bootstrap.Modal('#loadingModal', {});
                     this.parcelModal = new bootstrap.Modal('#parcelModal', {});
+                    this.cartModal = new bootstrap.Modal('#cartModal', {});
                     this.getparcel();
                 },
             },
@@ -278,7 +381,7 @@
                     }
                 },
                 candraw() {
-                    return (this.parcel.amount <= this.parcel.remain && this.parcel.amount > 0) ? true : false;
+                    return (this.parcel.amount <= this.parcel.remain && this.parcel.amount > 0) ? true : true;
                 }
             },
             mounted() {
