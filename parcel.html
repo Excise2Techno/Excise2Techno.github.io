@@ -75,7 +75,8 @@
                     <tbody>
                         <tr v-for="item in getparcels" @click="selectparc(item)">
                             <th>{{item.code}}</th>
-                            <td class="text-break">{{item.detail}}</td>
+                            <td style="white-space: nowrap; width: 50px; overflow: hidden; text-overflow: ellipsis;">
+                                {{item.detail}}</td>
                             <td class="text-end">{{item.remain}}</td>
                             <td>{{item.unit}}</td>
                         </tr>
