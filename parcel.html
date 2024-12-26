@@ -299,7 +299,7 @@
 
                 savecart() {
                     let amount = parseInt(document.getElementById('cartamount').value);
-                    if (amount > 0) {
+                    if (amount > 0 && amount <= this.cart.remain) {
                         let indexno = this.carts.findIndex(item => item.code == this.cart.code && item.detail == this.cart.detail);
                         this.carts[indexno].amount = amount;
                         Swal.fire("Success", "ดำเนินการเสร็จสิ้น !", "success");
@@ -395,7 +395,7 @@
                     }
                 },
                 candraw() {
-                    return (this.parcel.amount <= this.parcel.remain && this.parcel.amount > 0) ? true : true;
+                    return (this.parcel.amount <= this.parcel.remain && this.parcel.amount > 0) ? true : false;
                 }
             },
             mounted() {
