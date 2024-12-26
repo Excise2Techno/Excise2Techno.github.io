@@ -77,6 +77,7 @@
                             <th>{{item.code}}</th>
                             <td class="text-break">{{item.detail}}</td>
                             <td class="text-end">{{item.remain}}</td>
+                            <td>{{item.unit}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -96,6 +97,7 @@
                             <th>{{item.code}}</th>
                             <td class="text-break">{{item.detail}}</td>
                             <td class="text-end">{{item.amount}}</td>
+                            <td>{{item.unit}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -145,7 +147,7 @@
                                 </tr>
                                 <tr>
                                     <th class="bg-secondary">คงเหลือ</th>
-                                    <td class="text-end">{{ parcel.remain }}</td>
+                                    <td class="text-end">{{ parcel.remain }} {{ parcel.unit }}</td>
                                 </tr>
                                 <tr>
                                     <th class="bg-secondary">เบิก</th>
@@ -182,7 +184,7 @@
                                 </tr>
                                 <tr>
                                     <th class="bg-secondary">คงเหลือ</th>
-                                    <td class="text-end">{{ cart.remain }}</td>
+                                    <td class="text-end">{{ cart.remain }} {{ cart.unit }}</td>
                                 </tr>
                                 <tr>
                                     <th class="bg-secondary">เบิก</th>
