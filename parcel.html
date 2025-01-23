@@ -326,6 +326,8 @@
                 },
 
                 withdraw() {
+                    this.loadingModal.show();
+
                     let raw = {
                         "userid": this.userid,
                         "carts": this.carts
@@ -343,8 +345,7 @@
                     fetch(this.parcapi + "?fn=withdraw", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            // console.log(result);
-                            this.tracks = result.tracking;
+                            console.log(result);
                             Swal.fire({
                                 title: result.alerttitle,
                                 text: result.alerttext,
@@ -353,18 +354,18 @@
                             if (result.result) {
                                 this.carts = [];
                                 this.setpage(3);
-                                liff.sendMessages([
-                                    {
-                                        type: "text",
-                                        text: "คำร้องใหม่เลขที่: " + result.id,
-                                    },
-                                ])
-                                    .then(() => {
-                                        console.log("message sent");
-                                    })
-                                    .catch((err) => {
-                                        console.log("error", err);
-                                    });
+                                // liff.sendMessages([
+                                //     {
+                                //         type: "text",
+                                //         text: "คำร้องใหม่เลขที่: " + result.id,
+                                //     },
+                                // ])
+                                //     .then(() => {
+                                //         console.log("message sent");
+                                //     })
+                                //     .catch((err) => {
+                                //         console.log("error", err);
+                                //     });
                             }
                             this.loadingModal.hide();
                         })
