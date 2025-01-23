@@ -88,7 +88,7 @@
             <h1 style="margin-top: 64px;">ตะกร้า</h1>
             <hr />
             <div class="text-end mb-3">
-                <button class="btn btn-success" @click="savecarts">บันทึกการเบิก</button>
+                <button class="btn btn-success" @click="withdraw">บันทึกการเบิก</button>
             </div>
             <div class="slice mb-5">
                 <table class="table table-striped table-hover">
@@ -102,6 +102,10 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+
+        <div v-else-if="page==3" class="container-fluid mb-5">
+
         </div>
 
         <!-- navBottom -->
@@ -320,15 +324,53 @@
                     this.cartModal.hide();
                 },
 
-                savecarts() {
+                withdraw() {
                     let raw = {
                         "userid": this.userid,
                         "carts": this.carts
                     };
 
                     this.carts = [];
-                    Swal.fire("Success", "ดำเนินการเสร็จสิ้น !", "success");
-                    console.log(raw);
+                    // Swal.fire("Success", "ดำเนินการเสร็จสิ้น !", "success");
+                    // console.log(raw);
+
+                    fetch(this.parcapi + "?fn=withdraw", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            // console.log(result);
+                            this.tracks = result.tracking;
+                            Swal.fire({
+                                title: result.alerttitle,
+                                text: result.alerttext,
+                                icon: result.alerticon
+                            });
+                            if (result.result) {
+                                this.setform();
+                                this.setpage(3);
+                                liff.sendMessages([
+                                    {
+                                        type: "text",
+                                        text: "คำร้องใหม่เลขที่: " + result.id,
+                                    },
+                                ])
+                                    .then(() => {
+                                        console.log("message sent");
+                                    })
+                                    .catch((err) => {
+                                        console.log("error", err);
+                                    });
+                            }
+                            this.loadingModal.hide();
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                            Swal.fire({
+                                title: "ผิดพลาด",
+                                text: "ไม่สามารถดำเนินการได้กรุณาดำการบันทึกข้อมูลใหม่หรือติดต่อเจ้าหน้าที่",
+                                icon: "warning"
+                            });
+                            this.loadingModal.hide();
+                        });
                 },
 
                 getuser() {
@@ -352,7 +394,7 @@
                                 this.user = result;
                                 this.tracking();
                             } else {
-                                window.location.replace('https://liff.line.me/2003025875-p3AZ0JwL?redirect=2003025875-0Zmow7Dv');
+                                window.location.replace('https://liff.line.me/2003025875-p3AZ0JwL?redirect=2003025875-r6lgkjMX');
                             }
                         })
                         .catch((error) => {
@@ -403,7 +445,7 @@
             },
         }).mount('#app');
 
-        // liff.init({ liffId: "2003025875-0Zmow7Dv" }, () => {
+        // liff.init({ liffId: "2003025875-r6lgkjMX" }, () => {
         //     if (!liff.isLoggedIn()) {
         //         let destinationUrl = window.location.href;
         //         liff.login({ redirectUri: destinationUrl });
