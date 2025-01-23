@@ -243,6 +243,8 @@
                     parcel: {},
                     carts: [],
                     cart: {},
+                    withdraws: [],
+                    withdrawi: {},
                     user: {
                         prename: null,
                         name: null,
@@ -333,8 +335,6 @@
                         "carts": this.carts
                     };
 
-                    console.log(raw);
-
                     let requestOptions = {
                         method: "POST",
                         redirect: "follow",
@@ -345,7 +345,6 @@
                     fetch(this.parcapi + "?fn=withdraw", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            console.log(result);
                             Swal.fire({
                                 title: result.alerttitle,
                                 text: result.alerttext,
@@ -367,6 +366,38 @@
                                 //         console.log("error", err);
                                 //     });
                             }
+                            // this.loadingModal.hide();
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            Swal.fire({
+                                title: "ผิดพลาด",
+                                text: "ไม่สามารถดำเนินการได้กรุณาดำการบันทึกข้อมูลใหม่หรือติดต่อเจ้าหน้าที่",
+                                icon: "warning"
+                            });
+                            this.loadingModal.hide();
+                        });
+                },
+
+                getwthdrw() {
+                    this.loadingModal.show();
+
+                    let raw = {
+                        "userid": this.userid,
+                    };
+
+                    let requestOptions = {
+                        method: "POST",
+                        redirect: "follow",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(raw),
+                    };
+
+                    fetch(this.parcapi + "?fn=getwthdrw", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            console.log(result);
+                            this.withdraws = result;
                             this.loadingModal.hide();
                         })
                         .catch((error) => {
@@ -378,6 +409,7 @@
                             });
                             this.loadingModal.hide();
                         });
+
                 },
 
                 getuser() {
@@ -420,6 +452,7 @@
                 setpage(no) {
                     this.page = parseInt(no);
                     if (this.page == 1) this.getparcel();
+                    else if (this.page == 3) this.getwthdrw();
                 },
 
                 getuserid(userid, profile) {
