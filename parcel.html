@@ -236,7 +236,7 @@
                     loadingModal: null,
                     parcelModal: null,
                     cartModal: null,
-                    userid: null,
+                    userid: 'U001',
                     profile: './asset/null.jpeg',
                     searchtxt: null,
                     parcels: [],
@@ -331,8 +331,7 @@
                         "carts": this.carts
                     };
 
-                    // Swal.fire("Success", "ดำเนินการเสร็จสิ้น !", "success");
-                    // console.log(raw);
+                    console.log(raw);
 
                     let requestOptions = {
                         method: "POST",
