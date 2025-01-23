@@ -397,8 +397,8 @@
                         .then((response) => response.json())
                         .then((result) => {
                             console.log(result);
-                            // this.withdraws = result;
-                            this.loadingModal.hide();
+                            this.withdraws = result;
+                            setTimeout(() => { this.loadingModal.hide(); }, 300);
                         })
                         .catch((error) => {
                             console.log(error);
