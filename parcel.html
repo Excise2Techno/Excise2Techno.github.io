@@ -331,9 +331,15 @@
                         "carts": this.carts
                     };
 
-                    this.carts = [];
                     // Swal.fire("Success", "ดำเนินการเสร็จสิ้น !", "success");
                     // console.log(raw);
+
+                    let requestOptions = {
+                        method: "POST",
+                        redirect: "follow",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(raw),
+                    };
 
                     fetch(this.parcapi + "?fn=withdraw", requestOptions)
                         .then((response) => response.json())
@@ -346,7 +352,7 @@
                                 icon: result.alerticon
                             });
                             if (result.result) {
-                                this.setform();
+                                this.carts = [];
                                 this.setpage(3);
                                 liff.sendMessages([
                                     {
