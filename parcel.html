@@ -383,7 +383,7 @@
                     this.loadingModal.show();
 
                     let raw = {
-                        "userid": this.userid,
+                        "userid": this.userid
                     };
 
                     let requestOptions = {
@@ -397,7 +397,7 @@
                         .then((response) => response.json())
                         .then((result) => {
                             console.log(result);
-                            this.withdraws = result;
+                            // this.withdraws = result;
                             this.loadingModal.hide();
                         })
                         .catch((error) => {
