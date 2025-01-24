@@ -87,6 +87,10 @@
         <div v-else-if="page==2" class="container-fluid mb-5">
             <h1 style="margin-top: 64px;">ตะกร้า</h1>
             <hr />
+            <div class="mb-3">
+                <label for="notetxt" class="form-label">หมายเหตุเพิ่มเติม</label>
+                <textarea class="form-control" id="notetxt" rows="3" v-model.trim="notetxt"></textarea>
+            </div>
             <div class="text-end mb-3">
                 <button v-if="canwithdraw" class="btn btn-success" @click="withdraw">บันทึกการเบิก</button>
                 <button v-else class="btn btn-success" disabled>บันทึกการเบิก</button>
@@ -251,12 +255,16 @@
                                     <th class="bg-secondary">สถานะ</th>
                                     <td>{{ withdrawi.status }}</td>
                                 </tr>
+                                <tr>
+                                    <th class="bg-secondary">หมายเหตุ</th>
+                                    <td style="white-space: pre-wrap;">{{ withdrawi.note }}</td>
+                                </tr>
                             </tbody>
                         </table>
-                        <table class="table table-striped table-hover">
+                        <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th colspan="4" class="text-center">รายการ</th>
+                                    <th colspan="4">รายการพัสดุ</th>
                                 </tr>
                                 <tr>
                                     <th>รหัส</th>
@@ -316,6 +324,7 @@
                     userid: 'U001',
                     profile: './asset/null.jpeg',
                     searchtxt: null,
+                    notetxt: "",
                     parcels: [],
                     parcel: {},
                     carts: [],
@@ -409,6 +418,7 @@
 
                     let raw = {
                         "userid": this.userid,
+                        "note": this.notetxt,
                         "carts": this.carts
                     };
 
@@ -430,20 +440,19 @@
                             if (result.result) {
                                 this.carts = [];
                                 this.setpage(3);
-                                // liff.sendMessages([
-                                //     {
-                                //         type: "text",
-                                //         text: "คำร้องใหม่เลขที่: " + result.id,
-                                //     },
-                                // ])
-                                //     .then(() => {
-                                //         console.log("message sent");
-                                //     })
-                                //     .catch((err) => {
-                                //         console.log("error", err);
-                                //     });
+                                liff.sendMessages([
+                                    {
+                                        type: "text",
+                                        text: "คำร้องใหม่เลขที่: " + result.id,
+                                    },
+                                ])
+                                    .then(() => {
+                                        console.log("message sent");
+                                    })
+                                    .catch((err) => {
+                                        console.log("error", err);
+                                    });
                             }
-                            // this.loadingModal.hide();
                         })
                         .catch((error) => {
                             console.log(error);
@@ -474,7 +483,6 @@
                         .then((response) => response.json())
                         .then((result) => {
                             this.withdraws = result.sort((a, b) => b.no - a.no);
-                            console.log(this.withdraws);
                             setTimeout(() => { this.loadingModal.hide(); }, 300);
                         })
                         .catch((error) => {
@@ -519,18 +527,18 @@
                                 icon: result.alerticon
                             });
                             if (result.result) {
-                                // liff.sendMessages([
-                                //     {
-                                //         type: "text",
-                                //         text: "คำร้องเลขที่: " + result.id + "\nปรับสถานะเป็น " + status,
-                                //     },
-                                // ])
-                                //     .then(() => {
-                                //         console.log("message sent");
-                                //     })
-                                //     .catch((err) => {
-                                //         console.log("error", err);
-                                //     });
+                                liff.sendMessages([
+                                    {
+                                        type: "text",
+                                        text: "คำร้องเลขที่: " + result.id + "\nปรับสถานะเป็น " + status,
+                                    },
+                                ])
+                                    .then(() => {
+                                        console.log("message sent");
+                                    })
+                                    .catch((err) => {
+                                        console.log("error", err);
+                                    });
                             }
                             this.withdraws = result.withdraws.sort((a, b) => b.no - a.no);
                             this.loadingModal.hide();
@@ -624,24 +632,24 @@
             },
         }).mount('#app');
 
-        // liff.init({ liffId: "2003025875-r6lgkjMX" }, () => {
-        //     if (!liff.isLoggedIn()) {
-        //         let destinationUrl = window.location.href;
-        //         liff.login({ redirectUri: destinationUrl });
-        //     } else {
-        //         liff.getProfile()
-        //             .then((profile) => {
-        //                 // userId = profile.userId;
-        //                 // displayName = profile.displayName;
-        //                 // pictureUrl = profile.pictureUrl;
-        //                 app.getuserid(profile.userId, profile.pictureUrl);
-        //             })
-        //             .catch((err) => {
-        //                 liff.closeWindow();
-        //                 console.log("error", err);
-        //             });
-        //     }
-        // });
+        liff.init({ liffId: "2003025875-r6lgkjMX" }, () => {
+            if (!liff.isLoggedIn()) {
+                let destinationUrl = window.location.href;
+                liff.login({ redirectUri: destinationUrl });
+            } else {
+                liff.getProfile()
+                    .then((profile) => {
+                        // userId = profile.userId;
+                        // displayName = profile.displayName;
+                        // pictureUrl = profile.pictureUrl;
+                        app.getuserid(profile.userId, profile.pictureUrl);
+                    })
+                    .catch((err) => {
+                        liff.closeWindow();
+                        console.log("error", err);
+                    });
+            }
+        });
     </script>
 </body>
 
