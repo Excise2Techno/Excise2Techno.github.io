@@ -321,6 +321,7 @@
                     parcelModal: null,
                     cartModal: null,
                     wthdrwModal: null,
+                    user: null,
                     userid: 'U001',
                     profile: './asset/null.jpeg',
                     searchtxt: null,
@@ -574,7 +575,6 @@
                             // console.log(result);
                             if (result.name != null) {
                                 this.user = result;
-                                this.tracking();
                             } else {
                                 window.location.replace('https://liff.line.me/2003025875-p3AZ0JwL?redirect=2003025875-r6lgkjMX');
                             }
@@ -601,7 +601,6 @@
                 getuserid(userid, profile) {
                     this.userid = userid;
                     this.profile = profile;
-                    console.log(userid);
                     this.getuser();
                 },
 
