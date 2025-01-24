@@ -490,7 +490,6 @@
 
                 wthdrwselect(wthdrw) {
                     this.withdrawi = wthdrw;
-                    console.log(this.withdrawi);
                     this.wthdrwModal.show();
                 },
 
@@ -503,8 +502,6 @@
                         "status": status
                     };
 
-                    console.log(raw);
-
                     let requestOptions = {
                         method: "POST",
                         redirect: "follow",
@@ -515,7 +512,6 @@
                     fetch(this.parcapi + "?fn=statuswthdrw", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            console.log(result);
                             Swal.fire({
                                 title: result.alerttitle,
                                 text: result.alerttext,
@@ -523,6 +519,7 @@
                             });
                             this.withdraws = result.withdraws;
                             this.loadingModal.hide();
+                            this.wthdrwModal.hide();
                         })
                         .catch((error) => {
                             console.log(error);
