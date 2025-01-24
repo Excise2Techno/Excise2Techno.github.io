@@ -111,9 +111,11 @@
             <div class="slice mb-5">
                 <table class="table table-striped table-hover">
                     <thead>
-                        <th>เลขที่</th>
-                        <th>วันที่</th>
-                        <th>สถานะ</th>
+                        <tr>
+                            <th>เลขที่</th>
+                            <th>วันที่</th>
+                            <th>สถานะ</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr v-for="item in withdraws" @click="wthdrwselect(item)">
@@ -253,10 +255,15 @@
                         </table>
                         <table class="table table-striped table-hover">
                             <thead>
-                                <th>รหัส</th>
-                                <th>รายการ</th>
-                                <th>จำนวน</th>
-                                <th>หน่วย</th>
+                                <tr>
+                                    <th colspan="4">รายการ</th>
+                                </tr>
+                                <tr>
+                                    <th>รหัส</th>
+                                    <th>รายการ</th>
+                                    <th>จำนวน</th>
+                                    <th>หน่วย</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="item in withdrawi.items">
@@ -269,8 +276,8 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger">ยกเลิก</button>
-                        <button type="button" class="btn btn-success">เสร็จสิน</button>
+                        <button type="button" class="btn btn-danger" @click="statuswthdrw('ยกเลิก')">ยกเลิก</button>
+                        <button type="button" class="btn btn-success" @click="statuswthdrw('ได้รับ')">เสร็จสิน</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
                     </div>
                 </div>
@@ -466,7 +473,6 @@
                     fetch(this.parcapi + "?fn=getwthdrw", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            console.log(result);
                             this.withdraws = result;
                             setTimeout(() => { this.loadingModal.hide(); }, 300);
                         })
@@ -486,6 +492,45 @@
                     this.withdrawi = wthdrw;
                     console.log(this.withdrawi);
                     this.wthdrwModal.show();
+                },
+
+                statuswthdrw(status) {
+                    this.loadingModal.show();
+
+                    let raw = {
+                        "id": this.withdrawi.id,
+                        "userid": this.userid,
+                        "status": status
+                    };
+
+                    let requestOptions = {
+                        method: "POST",
+                        redirect: "follow",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(raw),
+                    };
+
+                    fetch(this.parcapi + "?fn=statuswthdrw", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            console.log(result);
+                            Swal.fire({
+                                title: result.alerttitle,
+                                text: result.alerttext,
+                                icon: result.alerticon
+                            });
+                            this.withdraws = result.withdraws;
+                            this.loadingModal.hide();
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            Swal.fire({
+                                title: "ผิดพลาด",
+                                text: "ไม่สามารถดำเนินการได้กรุณาดำการบันทึกข้อมูลใหม่หรือติดต่อเจ้าหน้าที่",
+                                icon: "warning"
+                            });
+                            this.loadingModal.hide();
+                        });
                 },
 
                 getuser() {
