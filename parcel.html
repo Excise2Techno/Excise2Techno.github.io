@@ -504,8 +504,6 @@
                 },
 
                 statuswthdrw(status) {
-                    this.loadingModal.show();
-
                     let raw = {
                         "id": this.withdrawi.id,
                         "userid": this.userid,
@@ -528,6 +526,9 @@
                         cancelButtonText: "ปิด",
                     }).then((res) => {
                         if (res.isConfirmed) {
+
+                            this.loadingModal.show();
+
                             fetch(this.parcapi + "?fn=statuswthdrw", requestOptions)
                                 .then((response) => response.json())
                                 .then((result) => {
