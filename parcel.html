@@ -473,7 +473,8 @@
                     fetch(this.parcapi + "?fn=getwthdrw", requestOptions)
                         .then((response) => response.json())
                         .then((result) => {
-                            this.withdraws = result;
+                            this.withdraws = result.sort((a, b) => b.no - a.no);
+                            console.log(this.withdraws);
                             setTimeout(() => { this.loadingModal.hide(); }, 300);
                         })
                         .catch((error) => {
@@ -517,7 +518,21 @@
                                 text: result.alerttext,
                                 icon: result.alerticon
                             });
-                            this.withdraws = result.withdraws;
+                            if (result.result) {
+                                // liff.sendMessages([
+                                //     {
+                                //         type: "text",
+                                //         text: "คำร้องเลขที่: " + result.id + "\nปรับสถานะเป็น " + status,
+                                //     },
+                                // ])
+                                //     .then(() => {
+                                //         console.log("message sent");
+                                //     })
+                                //     .catch((err) => {
+                                //         console.log("error", err);
+                                //     });
+                            }
+                            this.withdraws = result.withdraws.sort((a, b) => b.no - a.no);
                             this.loadingModal.hide();
                             this.wthdrwModal.hide();
                         })
@@ -592,7 +607,7 @@
             computed: {
                 getparcels() {
                     try {
-                        return this.parcels.filter(item => item.code.includes(this.searchtxt) || item.detail.includes(this.searchtxt) || this.searchtxt == null || this.searchtxt == '').sort((a, b) => b.no - a.no);
+                        return this.parcels.filter(item => item.code.includes(this.searchtxt) || item.detail.includes(this.searchtxt) || this.searchtxt == null || this.searchtxt == '');
                     } catch (e) {
                         return [];
                     }
