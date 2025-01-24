@@ -519,41 +519,54 @@
                         body: JSON.stringify(raw),
                     };
 
-                    fetch(this.parcapi + "?fn=statuswthdrw", requestOptions)
-                        .then((response) => response.json())
-                        .then((result) => {
-                            Swal.fire({
-                                title: result.alerttitle,
-                                text: result.alerttext,
-                                icon: result.alerticon
-                            });
-                            if (result.result) {
-                                liff.sendMessages([
-                                    {
-                                        type: "text",
-                                        text: "การเบิกพัสดุเลขที่: " + result.id + "\nปรับสถานะเป็น " + status,
-                                    },
-                                ])
-                                    .then(() => {
-                                        console.log("message sent");
-                                    })
-                                    .catch((err) => {
-                                        console.log("error", err);
+                    Swal.fire({
+                        title: "ดำเนิการ",
+                        text: "ยืนยันการ " + status,
+                        icon: "question",
+                        showCancelButton: true,
+                        confirmButtonText: "ยืนยัน",
+                        cancelButtonText: "ปิด",
+                    }).then((res) => {
+                        if (res.isConfirmed) {
+                            fetch(this.parcapi + "?fn=statuswthdrw", requestOptions)
+                                .then((response) => response.json())
+                                .then((result) => {
+                                    Swal.fire({
+                                        title: result.alerttitle,
+                                        text: result.alerttext,
+                                        icon: result.alerticon
                                     });
-                            }
-                            this.withdraws = result.withdraws.sort((a, b) => b.no - a.no);
-                            this.loadingModal.hide();
-                            this.wthdrwModal.hide();
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                            Swal.fire({
-                                title: "ผิดพลาด",
-                                text: "ไม่สามารถดำเนินการได้กรุณาดำการบันทึกข้อมูลใหม่หรือติดต่อเจ้าหน้าที่",
-                                icon: "warning"
-                            });
-                            this.loadingModal.hide();
-                        });
+                                    if (result.result) {
+                                        liff.sendMessages([
+                                            {
+                                                type: "text",
+                                                text: "การเบิกพัสดุเลขที่: " + result.id + "\nปรับสถานะเป็น " + status,
+                                            },
+                                        ])
+                                            .then(() => {
+                                                console.log("message sent");
+                                            })
+                                            .catch((err) => {
+                                                console.log("error", err);
+                                            });
+                                    }
+                                    this.withdraws = result.withdraws.sort((a, b) => b.no - a.no);
+                                    this.loadingModal.hide();
+                                    this.wthdrwModal.hide();
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                    Swal.fire({
+                                        title: "ผิดพลาด",
+                                        text: "ไม่สามารถดำเนินการได้กรุณาดำการบันทึกข้อมูลใหม่หรือติดต่อเจ้าหน้าที่",
+                                        icon: "warning"
+                                    });
+                                    this.loadingModal.hide();
+                                });
+                        }
+                    })
+
+
                 },
 
                 getuser() {
