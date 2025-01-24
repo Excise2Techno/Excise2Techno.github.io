@@ -592,7 +592,7 @@
             computed: {
                 getparcels() {
                     try {
-                        return this.parcels.filter(item => item.code.includes(this.searchtxt) || item.detail.includes(this.searchtxt) || this.searchtxt == null || this.searchtxt == '');
+                        return this.parcels.filter(item => item.code.includes(this.searchtxt) || item.detail.includes(this.searchtxt) || this.searchtxt == null || this.searchtxt == '').sort((a, b) => b.no - a.no);
                     } catch (e) {
                         return [];
                     }
