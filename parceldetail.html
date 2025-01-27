@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excise Region 2 งานพัสดุ</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.11/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/web-component@6.1.11/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.11/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.11/locales/th.global.min.js'></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js"></script>
+
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <style>
+        .slice {
+            /* white-space: nowrap; */
+            width: 100%;
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            /* for Internet Explorer, Edge */
+            scrollbar-width: none;
+            /* for Firefox */
+        }
+
+        .slice::-webkit-scrollbar {
+            display: none;
+            /* for Chrome, Safari and Opera */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <h1>ข้อมูลการเบิก</h1>
+            <hr />
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th class="bg-secondary">เลขที่</th>
+                        <td>{{ withdrawi.id }}</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-secondary">วันที่</th>
+                        <td>{{ withdrawi.drawdate }}</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-secondary">สถานะ</th>
+                        <td>{{ withdrawi.status }}</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-secondary">หมายเหตุ</th>
+                        <td style="white-space: pre-wrap;">{{ withdrawi.note }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="4">รายการพัสดุ</th>
+                    </tr>
+                    <tr>
+                        <th>รหัส</th>
+                        <th class="text-break">รายการ</th>
+                        <th class="text-end">จำนวน</th>
+                        <th>หน่วย</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in withdrawi.items">
+                        <th>{{item.code}}</th>
+                        <td class="text-break">{{item.detail}}</td>
+                        <td class="text-end">{{item.amount}}</td>
+                        <td>{{item.unit}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-end mb-3">
+                <button v-if="withdrawi.status=='เบิก'" type="button" class="btn btn-danger me-1"
+                    @click="statuswthdrw('ยกเลิก')">ยกเลิก</button>
+                <button v-if="withdrawi.status=='อนุมัติ'" type="button" class="btn btn-success me-1"
+                    @click="statuswthdrw('ได้รับ')">เสร็จสิน</button>
+                <button type="button" class="btn btn-secondary" @click="closewindow">ปิด</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- loadingModal -->
+    <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="loadingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <div class="ratio ratio-1x1" style="width: 100%;">
+                        <div class="spinner-border text-primary" style="width: 100%; height: 100%;" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <h1 class="text-center text-primary">Loading...</h1>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                loadingModal: null,
+                withdrawi: {},
+                parcapi: 'https://script.google.com/macros/s/AKfycbzhvS9dlMt68t2n-vhTiyWFJif5P-Ymajc44nDKLNroH9_dUIq19jvc4GSvjt-wUILD/exec'
+            }
+        },
+        methods: {
+            getwithdraw(id) {
+                this.loadingModal.show();
+
+                let raw = {
+                    "id": id
+                };
+
+                let requestOptions = {
+                    method: "POST",
+                    redirect: "follow",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(raw),
+                };
+
+                fetch(this.parcapi + "?fn=getwithdraw", requestOptions)
+                    .then((response) => response.json())
+                    .then((result) => {
+                        this.withdrawi = result[0];
+                        setTimeout(() => { this.loadingModal.hide(); }, 300);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        Swal.fire({
+                            title: "ผิดพลาด",
+                            text: "ไม่สามารถดำเนินการได้กรุณาดำการบันทึกข้อมูลใหม่หรือติดต่อเจ้าหน้าที่",
+                            icon: "warning"
+                        });
+                        this.loadingModal.hide();
+                    });
+            },
+
+            statuswthdrw(status) {
+                let raw = {
+                    "id": this.withdrawi.id,
+                    "status": status
+                };
+
+                let requestOptions = {
+                    method: "POST",
+                    redirect: "follow",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(raw),
+                };
+
+                Swal.fire({
+                    title: "ดำเนิการ",
+                    text: "ยืนยันการ " + status,
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonText: "ยืนยัน",
+                    cancelButtonText: "ปิด",
+                }).then((res) => {
+                    if (res.isConfirmed) {
+
+                        this.loadingModal.show();
+
+                        fetch(this.parcapi + "?fn=statuswthdrw", requestOptions)
+                            .then((response) => response.json())
+                            .then((result) => {
+                                Swal.fire({
+                                    title: result.alerttitle,
+                                    text: result.alerttext,
+                                    icon: result.alerticon
+                                });
+                                if (result.result) {
+                                    liff.sendMessages([
+                                        {
+                                            type: "text",
+                                            text: "การเบิกพัสดุเลขที่: " + result.id + "\nปรับสถานะเป็น " + status,
+                                        },
+                                    ])
+                                        .then(() => {
+                                            console.log("message sent");
+                                        })
+                                        .catch((err) => {
+                                            console.log("error", err);
+                                        });
+                                }
+                                this.withdrawi = result.withdraws[0];
+                                this.loadingModal.hide();
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                                Swal.fire({
+                                    title: "ผิดพลาด",
+                                    text: "ไม่สามารถดำเนินการได้กรุณาดำการบันทึกข้อมูลใหม่หรือติดต่อเจ้าหน้าที่",
+                                    icon: "warning"
+                                });
+                                this.loadingModal.hide();
+                            });
+                    }
+                })
+            },
+
+            closewindow() {
+                window.close();
+            },
+
+            initfn() {
+                this.loadingModal = new bootstrap.Modal('#loadingModal', {});
+                let urlParams = new URLSearchParams(window.location.search);
+                let id = urlParams.get('id');  // default null
+                this.getwithdraw(id);
+            }
+        },
+        mounted() {
+            this.initfn();
+        },
+    }).mount('#app');
+</script>
+
+</html>
