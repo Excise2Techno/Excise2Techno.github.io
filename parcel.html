@@ -284,8 +284,10 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" @click="statuswthdrw('ยกเลิก')">ยกเลิก</button>
-                        <button type="button" class="btn btn-success" @click="statuswthdrw('ได้รับ')">เสร็จสิน</button>
+                        <button v-if="withdrawi.status=='เบิก'" type="button" class="btn btn-danger"
+                            @click="statuswthdrw('ยกเลิก')">ยกเลิก</button>
+                        <button v-if="withdrawi.status=='อนุมัติ'" type="button" class="btn btn-success"
+                            @click="statuswthdrw('ได้รับ')">เสร็จสิน</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
                     </div>
                 </div>
