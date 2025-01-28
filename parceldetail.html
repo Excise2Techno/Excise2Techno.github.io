@@ -91,9 +91,9 @@
             </table>
             <div class="text-end mb-3">
                 <button v-if="withdrawi.status=='เบิก'" type="button" class="btn btn-danger me-1"
-                    @click="statuswthdrw('ยกเลิก')">ยกเลิก</button>
+                    @click="chstatus('ยกเลิก')">ยกเลิก</button>
                 <button v-if="withdrawi.status=='อนุมัติ'" type="button" class="btn btn-success me-1"
-                    @click="statuswthdrw('ได้รับ')">เสร็จสิน</button>
+                    @click="chstatus('ได้รับ')">เสร็จสิน</button>
                 <button type="button" class="btn btn-secondary" @click="closewindow">ปิด</button>
             </div>
         </div>
@@ -160,7 +160,7 @@
                     });
             },
 
-            statuswthdrw(status) {
+            chstatus(status) {
                 let raw = {
                     "id": this.withdrawi.id,
                     "status": status
@@ -185,7 +185,7 @@
 
                         this.loadingModal.show();
 
-                        fetch(this.parcapi + "?fn=statuswthdrw", requestOptions)
+                        fetch(this.parcapi + "?fn=chstatus", requestOptions)
                             .then((response) => response.json())
                             .then((result) => {
                                 Swal.fire({
@@ -193,21 +193,7 @@
                                     text: result.alerttext,
                                     icon: result.alerticon
                                 });
-                                if (result.result) {
-                                    liff.sendMessages([
-                                        {
-                                            type: "text",
-                                            text: "การเบิกพัสดุเลขที่: " + result.id + "\nปรับสถานะเป็น " + status,
-                                        },
-                                    ])
-                                        .then(() => {
-                                            console.log("message sent");
-                                        })
-                                        .catch((err) => {
-                                            console.log("error", err);
-                                        });
-                                }
-                                this.withdrawi = result.withdraws[0];
+                                this.withdrawi = result.withdraw[0];
                                 this.loadingModal.hide();
                             })
                             .catch((error) => {
