@@ -448,25 +448,6 @@
                                         type: "text",
                                         text: "การเบิกพัสดุใหม่เลขที่: " + result.id,
                                     },
-                                    {
-                                        "type": "template",
-                                        "altText": "อนุมัติรายการเบิกเลขที่ " + result.id,
-                                        "template": {
-                                            "type": "buttons",
-                                            "thumbnailImageUrl": "https://excise2techno.github.io/asset/Vayo.png",
-                                            "imageAspectRatio": "square",
-                                            "imageSize": "contain",
-                                            "title": "รายการเบิกใหม่เลขที่ " + result.id,
-                                            "text": "รอการตรวจสอบและอนุมัติ",
-                                            "actions": [
-                                                {
-                                                    "type": "uri",
-                                                    "label": "ดูข้อมูล",
-                                                    "uri": "https://excise2techno.github.io/parceldetail.html?id=" + id
-                                                }
-                                            ]
-                                        }
-                                    },
                                 ])
                                     .then(() => {
                                         console.log("message sent");
