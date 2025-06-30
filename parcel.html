@@ -397,7 +397,8 @@
 
                 savecart() {
                     let amount = parseInt(document.getElementById('cartamount').value);
-                    if (amount > 0 && amount <= this.cart.remain) {
+                    // amount > 0 && amount <= this.cart.remain
+                    if (amount > 0) {
                         let indexno = this.carts.findIndex(item => item.code == this.cart.code && item.detail == this.cart.detail);
                         this.carts[indexno].amount = amount;
                         Swal.fire("Success", "ดำเนินการเสร็จสิ้น !", "success");
