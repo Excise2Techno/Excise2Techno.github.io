@@ -635,7 +635,8 @@
                     }
                 },
                 candraw() {
-                    return (this.parcel.amount <= this.parcel.remain && this.parcel.amount > 0) ? true : false;
+                    // return (this.parcel.amount <= this.parcel.remain && this.parcel.amount > 0) ? true : false;
+                    return (this.parcel.amount > 0) ? true : false;
                 },
                 canwithdraw() {
                     return this.carts.length > 0 ? true : false;
